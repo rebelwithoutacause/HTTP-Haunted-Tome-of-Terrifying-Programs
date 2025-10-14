@@ -1,14 +1,16 @@
-# 🎃 Spooky Grimoire - Halloween Recipes App
+# 🎃 HTTP-Haunted-Tome-of-Terrifying-Programs
 
-A full-stack Halloween recipes application featuring a React frontend and Express.js backend.
+## Spooky Grimoire - Halloween Recipes Application
+
+A full-stack Halloween-themed web application featuring spooky recipes, classic horror movies, and mysterious Halloween facts. Built with React, Express.js, and a dark, atmospheric design.
 
 ## 🦇 Features
 
 - **28 Spooky Recipes** across 5 categories (Cookies, Drinks, Pies, Mains, Snacks)
+- **50 Classic Horror Movies** with posters, ratings, and detailed descriptions
+- **13 Ancient Halloween Mysteries** with fascinating historical facts
 - **Interactive UI** with Halloween-themed design and glitch effects
 - **Recipe Management** with favorites, filtering, and search
-- **13 Ancient Halloween Mysteries** with fascinating historical facts
-- **50 Classic Horror Movies** collection with ratings and descriptions
 - **Responsive Design** optimized for all devices
 - **RESTful API** with proper error handling and rate limiting
 
@@ -45,13 +47,16 @@ spooky/
 │   │   ├── recipes.js       # Recipe endpoints
 │   │   ├── categories.js    # Category endpoints
 │   │   ├── facts.js         # Facts endpoints
+│   │   ├── movies.js        # Movie endpoints
 │   │   └── favorites.js     # Favorites endpoints
 │   ├── data/                # Static data files
 │   │   ├── recipes.js       # Recipe data
 │   │   ├── categories.js    # Category data
-│   │   └── facts.js         # Halloween facts
+│   │   ├── facts.js         # Halloween mysteries
+│   │   └── movies.js        # Horror movie data
 │   ├── server.js            # Express server setup
 │   └── package.json         # Backend dependencies
+├── Posters/                  # Movie poster images
 ├── package.json             # Root package.json with scripts
 └── README.md               # This file
 ```
@@ -74,7 +79,7 @@ spooky/
    npm run dev
    ```
 
-   This starts both frontend (http://localhost:3001) and backend (http://localhost:5001) servers concurrently.
+   This starts both frontend (http://localhost:3001) and backend (http://localhost:5000) servers concurrently.
 
 ### Individual Commands
 
@@ -95,7 +100,7 @@ spooky/
 - `GET /api/categories` - Get all categories
 - `GET /api/categories/:id` - Get category by ID
 
-### Facts
+### Facts (Halloween Mysteries)
 - `GET /api/facts` - Get all Halloween facts
 - `GET /api/facts/:id` - Get fact by ID
 - `GET /api/facts/random/:count` - Get random facts
@@ -129,15 +134,18 @@ spooky/
 - **Favorites System** - Heart-click to save favorite recipes
 - **Category Filtering** - Filter recipes by type
 - **Recipe Details** - Full ingredient lists and instructions
+- **Horror Movie Collection** - Browse 50 classic horror films
+- **Mystery Section** - Explore Halloween history and legends
 - **Responsive Design** - Works on desktop and mobile
 - **Loading States** - Smooth transitions and feedback
 
 ### Backend Features
 - **Security Headers** - Helmet.js for protection
-- **Rate Limiting** - Prevents API abuse
+- **Rate Limiting** - Prevents API abuse (1000 requests per 15 minutes)
 - **Error Handling** - Consistent error responses
 - **CORS Support** - Configured for frontend communication
 - **Request Logging** - Morgan for request tracking
+- **Static File Serving** - Movie posters served efficiently
 - **Data Validation** - Input sanitization and validation
 
 ## 🧙‍♀️ Development
@@ -147,6 +155,11 @@ spooky/
 2. Ensure proper category assignment
 3. Include all required fields (id, title, category, time, difficulty, etc.)
 
+### Adding New Movies
+1. Add movie data to `backend/data/movies.js`
+2. Place poster image in `Posters/` directory
+3. Include title, year, rating, poster path, IMDb link, and description
+
 ### Adding New API Endpoints
 1. Create route file in `backend/routes/`
 2. Import and use in `backend/server.js`
@@ -155,7 +168,8 @@ spooky/
 ### Styling Changes
 - Tailwind classes are used throughout
 - Halloween color scheme: amber, red, gray tones
-- Consistent spacing and typography
+- Times New Roman typography for Gothic aesthetic
+- Consistent spacing and responsive design
 
 ## 🕸️ Production Deployment
 
@@ -196,7 +210,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Halloween emoji icons
 - Spooky recipe inspirations from various Halloween cooking sources
+- Classic horror movie collection and descriptions
 - Celtic Halloween history and traditions
+- Movie posters from respective film studios
 
 ---
 
