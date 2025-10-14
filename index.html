@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎃 Spooky Grimoire - Halloween Recipes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1f2937 0%, #7c2d12 50%, #000000 100%);
+            animation: spooky-glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes spooky-glow {
+            from { box-shadow: inset 0 0 20px rgba(220, 38, 38, 0.1); }
+            to { box-shadow: inset 0 0 40px rgba(220, 38, 38, 0.2); }
+        }
+        .glitch {
+            animation: glitch 0.3s;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .pulse-red {
+            animation: pulse-red 2s ease-in-out infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { color: #dc2626; }
+            50% { color: #f87171; }
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .eerie-glow {
+            text-shadow: 0 0 10px rgba(220, 38, 38, 0.5), 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+        .blood-drip {
+            animation: bloodDrip 4s ease-in-out infinite;
+        }
+        @keyframes bloodDrip {
+            0%, 100% { transform: translateY(0px); opacity: 1; }
+            50% { transform: translateY(10px); opacity: 0.7; }
+        }
+        .flicker {
+            animation: flicker 3s linear infinite;
+        }
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+                opacity: 1;
+            }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+                opacity: 0.4;
+            }
+        }
+        .creepy-writing {
+            font-family: 'Creepster', cursive;
+            letter-spacing: 3px;
+        }
+        .shadow-text {
+            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+        }
+        .mystical-border {
+            border-image: linear-gradient(45deg, #dc2626, #7c2d12, #000000, #dc2626) 1;
+            animation: borderShift 5s ease-in-out infinite;
+        }
+        @keyframes borderShift {
+            0%, 100% { border-color: #dc2626; }
+            33% { border-color: #7c2d12; }
+            66% { border-color: #000000; }
+        }
+        .whisper {
+            animation: whisper 8s ease-in-out infinite;
+        }
+        @keyframes whisper {
+            0%, 100% { opacity: 0.3; transform: scale(0.95); }
+            50% { opacity: 0.8; transform: scale(1.02); }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-100">
+    <!-- Header -->
+    <header class="bg-black border-b border-amber-900/50 p-4 sticky top-0 z-50">
+        <div class="w-full">
+            <div class="flex items-center justify-between">
+                <div class="inline-flex items-center gap-3">
+                    <div class="w-8 h-8 text-red-600">💀</div>
+                    <h1 id="title" class="font-mono text-2xl text-amber-100 tracking-wider">
+                        SPOOKY GRIMOIRE
+                    </h1>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="flex gap-4">
+                    <button onclick="showPage('home')" id="nav-home" class="nav-btn px-4 py-2 font-mono text-base border rounded-lg transition-all hover:scale-105 bg-red-900/40 border-red-600/70 text-red-200">
+                        🏠 Home
+                    </button>
+                    <button onclick="showPage('recipes')" id="nav-recipes" class="nav-btn px-4 py-2 font-mono text-base border rounded-lg transition-all hover:scale-105 bg-amber-900/20 border-amber-700/50 text-amber-300 hover:border-red-700/50 hover:text-red-300">
+                        🍽️ Recipes
+                    </button>
+                    <button onclick="showPage('mysteries')" id="nav-mysteries" class="nav-btn px-4 py-2 font-mono text-base border rounded-lg transition-all hover:scale-105 bg-amber-900/20 border-amber-700/50 text-amber-300 hover:border-red-700/50 hover:text-red-300">
+                        📖 Ancient Mysteries
+                    </button>
+                    <button onclick="showPage('movies')" id="nav-movies" class="nav-btn px-4 py-2 font-mono text-base border rounded-lg transition-all hover:scale-105 bg-amber-900/20 border-amber-700/50 text-amber-300 hover:border-red-700/50 hover:text-red-300">
+                        🎬 Horror Movies
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Status Bar -->
+    <div class="bg-gray-900 border-b border-amber-800/30 p-2 text-center">
+        <div id="status" class="text-amber-300 font-mono text-sm">
+            🔮 Connecting to the shadow realm...
+        </div>
+    </div>
+
+    <!-- Eerie Mystical Homepage -->
+    <div id="home-page" class="page">
+        <div class="min-h-screen relative overflow-hidden">
+            <!-- Mystical Background Elements -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="floating" style="position: absolute; top: 10%; left: 5%; font-size: 2rem; animation-delay: -1s;">🕷️</div>
+                <div class="floating" style="position: absolute; top: 20%; right: 10%; font-size: 1.5rem; animation-delay: -3s;">🔮</div>
+                <div class="floating" style="position: absolute; bottom: 30%; left: 15%; font-size: 2.5rem; animation-delay: -2s;">🧿</div>
+                <div class="floating" style="position: absolute; top: 60%; right: 5%; font-size: 1.8rem; animation-delay: -4s;">💀</div>
+                <div class="floating" style="position: absolute; bottom: 20%; right: 20%; font-size: 2rem; animation-delay: -5s;">🌙</div>
+                <div class="floating" style="position: absolute; top: 40%; left: 8%; font-size: 1.6rem; animation-delay: -6s;">🕯️</div>
+            </div>
+
+            <div class="flex flex-col justify-center items-center text-center px-4 py-16 relative z-10">
+                <!-- Main Mystical Header -->
+                <div class="fade-in mb-16">
+                    <div class="floating mb-12">
+                        <div class="text-9xl mb-6 blood-drip">🎃</div>
+                    </div>
+
+                    <h1 class="font-mono text-5xl md:text-7xl text-amber-100 mb-6 eerie-glow flicker shadow-text">
+                        THE ANCIENT GRIMOIRE
+                    </h1>
+
+                    <h2 class="creepy-writing text-3xl md:text-5xl text-red-400 mb-8 pulse-red">
+                        ~ Where Shadows Whisper Secrets ~
+                    </h2>
+
+                    <div class="border-t border-b border-red-900/50 py-6 mb-8 mystical-border">
+                        <p class="text-lg md:text-xl text-amber-300/90 italic leading-relaxed max-w-3xl">
+                            <span class="text-red-300 font-bold">"In the depths of eternal darkness, where moonlight fears to tread,<br>
+                            lies a collection of forbidden knowledge..."</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Horror Notes Scroll -->
+                <div class="max-w-5xl w-full space-y-8 mb-12">
+                    <!-- First Note -->
+                    <div class="whisper bg-black/40 border border-red-900/30 p-8 rounded-lg transform -rotate-1">
+                        <div class="flex items-start gap-4">
+                            <div class="text-6xl">📜</div>
+                            <div class="text-left">
+                                <h3 class="creepy-writing text-3xl text-red-300 mb-4">
+                                    ~ Ancient Recipe Scroll ~
+                                </h3>
+                                <p class="text-amber-200/80 font-mono text-lg leading-relaxed italic">
+                                    "Found within the cobweb-covered kitchen of the old mansion...<br>
+                                    Recipes written in blood and shadow, passed down through generations<br>
+                                    of practitioners who dared to cook with ingredients from beyond..."
+                                </p>
+                                <div class="text-right mt-4">
+                                    <span class="text-base text-red-400/60">- Discovered Halloween, 1692</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second Note -->
+                    <div class="whisper bg-black/40 border border-amber-900/30 p-8 rounded-lg transform rotate-1" style="animation-delay: 2s;">
+                        <div class="flex items-start gap-4">
+                            <div class="text-6xl">📀</div>
+                            <div class="text-left">
+                                <h3 class="creepy-writing text-3xl text-amber-300 mb-4">
+                                    ~ Mystical Chronicles ~
+                                </h3>
+                                <p class="text-amber-200/80 font-mono text-lg leading-relaxed italic">
+                                    "The mysteries herein are not for the faint of heart...<br>
+                                    Each tale more chilling than the last, each secret darker<br>
+                                    than the void itself. Read if you dare to know the truth."
+                                </p>
+                                <div class="text-right mt-4">
+                                    <span class="text-base text-amber-400/60">- The Keeper of Secrets</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Third Note -->
+                    <div class="whisper bg-black/40 border border-gray-800/30 p-8 rounded-lg transform -rotate-1" style="animation-delay: 4s;">
+                        <div class="flex items-start gap-4">
+                            <div class="text-6xl">🎬</div>
+                            <div class="text-left">
+                                <h3 class="creepy-writing text-3xl text-gray-300 mb-4">
+                                    ~ Cinema of Fear ~
+                                </h3>
+                                <p class="text-amber-200/80 font-mono text-lg leading-relaxed italic">
+                                    "Moving pictures that capture the essence of terror itself...<br>
+                                    Each frame a portal to nightmare, each scene a window<br>
+                                    into the abyss of human fear and supernatural dread."
+                                </p>
+                                <div class="text-right mt-4">
+                                    <span class="text-base text-gray-400/60">- The Phantom Projectionist</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Warning -->
+                <div class="text-center">
+                    <div class="border border-red-900/50 bg-red-900/10 p-8 rounded-lg max-w-3xl mx-auto">
+                        <p class="text-red-300 font-mono text-2xl mb-4">
+                            ⚠️ <span class="creepy-writing text-3xl">WARNING</span> ⚠️
+                        </p>
+                        <p class="text-amber-200/80 text-lg italic leading-relaxed">
+                            "Those who venture deeper into this grimoire do so at their own peril.<br>
+                            The knowledge contained within has been known to change those<br>
+                            who dare to unlock its secrets. Proceed only if your soul can bear the weight of darkness."
+                        </p>
+                    </div>
+
+                    <div class="mt-8">
+                        <p class="text-amber-400/40 font-mono text-xl">
+                            <span class="pulse-red flicker text-2xl">💀</span>
+                            <em>Use the ancient navigation above to choose your fate...</em>
+                            <span class="pulse-red flicker text-2xl">💀</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipes Page -->
+    <div id="recipes-page" class="page hidden">
+        <!-- Category Tabs -->
+        <div class="w-full text-center mb-4 mt-6">
+            <div id="categories" class="inline-flex gap-2 flex-wrap">
+                <!-- Categories will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Results Counter -->
+        <div class="px-4 mb-4">
+            <p id="counter" class="text-amber-400/70 font-mono text-sm">
+                Loading cursed recipes...
+            </p>
+        </div>
+
+        <!-- Recipe Grid -->
+        <div id="recipes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 pb-8">
+            <!-- Recipes will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Recipe Modal -->
+    <div id="recipe-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-gray-900 border border-amber-800/50 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div id="modal-content" class="p-8">
+                    <!-- Modal content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ancient Halloween Mysteries Page -->
+    <div id="mysteries-page" class="page hidden">
+        <div class="mx-4 my-8">
+            <div class="bg-gray-900/90 border border-amber-800/30 p-6 rounded">
+                <div class="text-center mb-8">
+                    <h2 class="font-mono text-4xl text-red-400 mb-4 flex items-center justify-center gap-3">
+                        📖 Ancient Halloween Mysteries
+                    </h2>
+                    <p class="text-amber-300/80 text-lg italic">
+                        Discover the dark secrets and forgotten lore of Halloween's ancient past...
+                    </p>
+                </div>
+                <div id="facts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Facts will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Horror Movies Page -->
+    <div id="movies-page" class="page hidden">
+        <div class="mx-4 my-8">
+            <div class="bg-gray-900/90 border border-amber-800/30 p-6 rounded">
+                <div class="text-center mb-8">
+                    <h2 class="font-mono text-4xl text-red-400 mb-4 flex items-center justify-center gap-3">
+                        🎬 Horror Movie Collection
+                    </h2>
+                    <p class="text-amber-300/80 text-lg italic">
+                        A curated collection of spine-chilling films to haunt your Halloween nights...
+                    </p>
+                </div>
+                <div id="movies" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Movies will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-16 pt-8 border-t border-amber-800/30 px-4 pb-8">
+        <div class="text-center text-amber-500/70 font-mono text-sm">
+            <p>© 2025 Spooky Grimoire - Ancient Recipes from the Shadow Realm</p>
+            <p class="mt-2 text-xs">Where culinary magic meets Halloween mysteries...</p>
+        </div>
+    </footer>
+
+    <script>
+        let recipes = [];
+        let categories = [];
+        let facts = [];
+        let movies = [];
+        let selectedCategory = 'all';
+        let favorites = new Set();
+        let currentPage = 'home';
+
+        // API Base URL
+        const API_BASE = 'http://localhost:5000/api';
+
+        // Initialize app
+        async function init() {
+            try {
+                await loadData();
+                renderCategories();
+                renderRecipes();
+                renderFacts();
+                renderMovies();
+                updateStatus('✅ Connected to the dark realm!', 'text-green-400');
+
+                // Random glitch effect
+                setInterval(() => {
+                    if (Math.random() < 0.1) {
+                        document.getElementById('title').classList.add('glitch');
+                        setTimeout(() => {
+                            document.getElementById('title').classList.remove('glitch');
+                        }, 300);
+                    }
+                }, 3000);
+            } catch (error) {
+                updateStatus('💀 Failed to connect to shadow realm: ' + error.message, 'text-red-400');
+            }
+        }
+
+        // Load data from API
+        async function loadData() {
+            try {
+                updateStatus('🔮 Summoning recipes...', 'text-yellow-400');
+
+                const [recipesRes, categoriesRes, factsRes, moviesRes] = await Promise.all([
+                    fetch(`${API_BASE}/recipes`),
+                    fetch(`${API_BASE}/categories`),
+                    fetch(`${API_BASE}/facts`),
+                    fetch(`${API_BASE}/movies`)
+                ]);
+
+                if (!recipesRes.ok) {
+                    throw new Error(`Recipes API failed: ${recipesRes.status} ${recipesRes.statusText}`);
+                }
+                if (!categoriesRes.ok) {
+                    throw new Error(`Categories API failed: ${categoriesRes.status} ${categoriesRes.statusText}`);
+                }
+                if (!factsRes.ok) {
+                    throw new Error(`Facts API failed: ${factsRes.status} ${factsRes.statusText}`);
+                }
+                if (!moviesRes.ok) {
+                    throw new Error(`Movies API failed: ${moviesRes.status} ${moviesRes.statusText}`);
+                }
+
+                recipes = await recipesRes.json();
+                categories = await categoriesRes.json();
+                facts = await factsRes.json();
+                movies = await moviesRes.json();
+
+                console.log('✅ Data loaded:', { recipes: recipes.length, categories: categories.length, facts: facts.length, movies: movies.length });
+            } catch (error) {
+                console.error('❌ Failed to load data:', error);
+                throw error;
+            }
+        }
+
+        // Update status message
+        function updateStatus(message, className = 'text-amber-300') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `font-mono text-sm ${className}`;
+        }
+
+        // Render categories
+        function renderCategories() {
+            const container = document.getElementById('categories');
+            container.innerHTML = categories.map(category => `
+                <button
+                    onclick="selectCategory('${category.id}')"
+                    class="flex items-center gap-3 px-6 py-3 font-mono text-base whitespace-nowrap transition-all border rounded-lg hover:scale-105 ${
+                        selectedCategory === category.id
+                            ? 'bg-red-900/40 border-red-600/70 text-red-200 scale-105'
+                            : 'bg-amber-900/20 border-amber-700/50 text-amber-300 hover:border-red-700/50 hover:text-red-300'
+                    }"
+                >
+                    <span class="text-2xl">${category.emoji}</span>
+                    <span class="text-lg">${category.name}</span>
+                </button>
+            `).join('');
+        }
+
+        // Select category
+        function selectCategory(categoryId) {
+            selectedCategory = categoryId;
+            renderCategories();
+            renderRecipes();
+        }
+
+        // Filter recipes
+        function getFilteredRecipes() {
+            return recipes.filter(recipe =>
+                selectedCategory === 'all' || recipe.category === selectedCategory
+            );
+        }
+
+        // Render recipes
+        function renderRecipes() {
+            const filteredRecipes = getFilteredRecipes();
+            const container = document.getElementById('recipes');
+            const counter = document.getElementById('counter');
+
+            counter.innerHTML = `<span class="text-lg">${filteredRecipes.length} cursed recipes found (Total: ${recipes.length} in grimoire)</span>`;
+
+            container.innerHTML = filteredRecipes.map(recipe => `
+                <div onclick="openRecipeModal(${recipe.id})" class="bg-gray-900/80 border border-amber-800/30 p-6 hover:border-red-700/50 transition-all duration-300 hover:shadow-lg cursor-pointer rounded-lg hover:scale-105">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="text-6xl mb-2">${recipe.image}</div>
+                        <button
+                            onclick="event.stopPropagation(); toggleFavorite(${recipe.id})"
+                            class="p-2 transition-colors ${favorites.has(recipe.id) ? 'text-red-500' : 'text-amber-500 hover:text-red-400'}"
+                        >
+                            <span class="text-2xl">❤️</span>
+                        </button>
+                    </div>
+
+                    <h3 class="font-mono text-xl text-amber-100 mb-3 leading-tight">${recipe.title}</h3>
+                    <p class="text-amber-200/80 text-base mb-4 italic">${recipe.description}</p>
+
+                    <div class="flex items-center justify-between text-base text-amber-300/80 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg">⏰</span> <span>${recipe.time} min</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-yellow-500 text-lg">★</span>
+                            <span>${recipe.rating}</span>
+                        </div>
+                        <div class="px-3 py-1 text-sm border rounded ${
+                            recipe.difficulty === 'Easy' ? 'border-green-600/50 text-green-400' :
+                            recipe.difficulty === 'Medium' ? 'border-yellow-600/50 text-yellow-400' :
+                            'border-red-600/50 text-red-400'
+                        }">
+                            ${recipe.difficulty}
+                        </div>
+                    </div>
+
+                    <!-- Ingredients Preview -->
+                    <div class="pt-4 border-t border-amber-800/30">
+                        <h4 class="text-red-400 font-mono text-base mb-3">🧪 Ingredients Preview:</h4>
+                        <ul class="text-sm text-amber-200/80 space-y-1">
+                            ${recipe.ingredients.slice(0, 3).map(ing => `<li>• ${ing}</li>`).join('')}
+                            ${recipe.ingredients.length > 3 ? `<li class="text-gray-500 font-bold">...and ${recipe.ingredients.length - 3} more (click to see full recipe)</li>` : ''}
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle favorite
+        async function toggleFavorite(id) {
+            if (favorites.has(id)) {
+                favorites.delete(id);
+            } else {
+                favorites.add(id);
+            }
+
+            // Sync with backend
+            try {
+                await fetch(`${API_BASE}/favorites`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ recipeId: id })
+                });
+            } catch (error) {
+                console.error('Failed to sync favorites:', error);
+            }
+
+            renderRecipes();
+
+            // Update modal if it's open for this recipe
+            const modal = document.getElementById('recipe-modal');
+            if (!modal.classList.contains('hidden')) {
+                const recipe = recipes.find(r => r.id === id);
+                if (recipe) {
+                    openRecipeModal(id); // Refresh modal content
+                }
+            }
+        }
+
+        // Open recipe modal
+        function openRecipeModal(recipeId) {
+            const recipe = recipes.find(r => r.id === recipeId);
+            if (!recipe) return;
+
+            const modal = document.getElementById('recipe-modal');
+            const modalContent = document.getElementById('modal-content');
+
+            modalContent.innerHTML = `
+                <div class="flex items-start justify-between mb-6">
+                    <div class="flex items-center gap-6">
+                        <div class="text-8xl">${recipe.image}</div>
+                        <div>
+                            <h1 class="font-mono text-3xl text-amber-100 mb-3">${recipe.title}</h1>
+                            <p class="text-amber-200/80 italic text-xl">${recipe.description}</p>
+                        </div>
+                    </div>
+                    <button
+                        onclick="closeRecipeModal()"
+                        class="text-red-400 hover:text-red-300 text-2xl font-bold p-2"
+                    >
+                        ✕
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <div class="flex items-center gap-3 text-amber-300">
+                        <span class="text-2xl">⏰</span>
+                        <span class="font-mono text-lg">${recipe.time} minutes</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-amber-300">
+                        <span class="text-yellow-500 text-2xl">★</span>
+                        <span class="font-mono text-lg">${recipe.rating}/5.0</span>
+                    </div>
+                    <div class="flex items-center gap-3 font-mono text-lg ${
+                        recipe.difficulty === 'Easy' ? 'text-green-400' :
+                        recipe.difficulty === 'Medium' ? 'text-yellow-400' :
+                        'text-red-400'
+                    }">
+                        <span>${recipe.difficulty} ritual</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h2 class="font-mono text-2xl text-red-400 mb-6 border-b border-red-900/50 pb-3">
+                            🧪 Cursed Ingredients
+                        </h2>
+                        <ul class="space-y-3">
+                            ${recipe.ingredients.map(ingredient => `
+                                <li class="text-amber-200 flex items-start gap-3 text-base">
+                                    <span class="text-red-600 font-mono text-lg">•</span>
+                                    <span>${ingredient}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h2 class="font-mono text-2xl text-red-400 mb-6 border-b border-red-900/50 pb-3">
+                            📜 Dark Ritual Steps
+                        </h2>
+                        <ol class="space-y-4">
+                            ${recipe.instructions.map((step, index) => `
+                                <li class="text-amber-200 flex items-start gap-4 text-base">
+                                    <span class="text-red-600 font-mono font-bold bg-red-900/20 px-3 py-2 text-sm min-w-[32px] text-center rounded">
+                                        ${index + 1}
+                                    </span>
+                                    <span class="leading-relaxed">${step}</span>
+                                </li>
+                            `).join('')}
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-red-900/30 text-center">
+                    <p class="text-amber-400/70 font-mono text-base italic">
+                        May this recipe bring darkness to your kitchen and satisfaction to your soul...
+                    </p>
+                    <button
+                        onclick="toggleFavorite(${recipe.id})"
+                        class="mt-4 px-6 py-3 bg-red-900/40 hover:bg-red-900/60 border border-red-600/50 text-red-200 rounded-lg transition-all flex items-center gap-2 mx-auto"
+                    >
+                        <span class="text-xl">❤️</span>
+                        ${favorites.has(recipe.id) ? 'Remove from' : 'Add to'} Dark Collection
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close recipe modal
+        function closeRecipeModal() {
+            const modal = document.getElementById('recipe-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('recipe-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeRecipeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('recipe-modal');
+                if (!modal.classList.contains('hidden')) {
+                    closeRecipeModal();
+                }
+            }
+        });
+
+        // Render facts
+        function renderFacts() {
+            const container = document.getElementById('facts');
+            container.innerHTML = facts.map(fact => `
+                <div class="bg-amber-900/10 border border-amber-800/20 p-6 hover:bg-amber-900/20 transition-all rounded">
+                    <div class="flex items-start gap-4">
+                        <span class="text-3xl">${fact.icon}</span>
+                        <div>
+                            <h3 class="font-mono text-xl text-amber-200 mb-3">${fact.title}</h3>
+                            <p class="text-amber-300/80 text-base leading-relaxed">${fact.fact}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render movies
+        function renderMovies() {
+            const container = document.getElementById('movies');
+            container.innerHTML = movies.map(movie => `
+                <div onclick="${movie.imdb ? `window.open('${movie.imdb}', '_blank')` : 'void(0)'}" class="bg-red-900/10 border border-red-800/20 p-4 hover:bg-red-900/20 transition-all rounded-lg group cursor-pointer hover:scale-105">
+                    <div class="text-center">
+                        ${movie.poster ?
+                            `<img src="http://localhost:5000/${movie.poster}" alt="${movie.title}" class="w-full h-80 object-contain rounded mb-3 group-hover:opacity-90 bg-gray-900/30">` :
+                            `<div class="w-full h-80 bg-gray-800/50 rounded mb-3 flex items-center justify-center">
+                                <div class="text-6xl">${movie.icon}</div>
+                             </div>`
+                        }
+                        <h3 class="font-mono text-base text-red-200 mb-2 group-hover:text-red-100 leading-tight">${movie.title}</h3>
+                        <p class="text-red-300/70 text-sm mb-2 font-semibold">${movie.year}</p>
+                        <div class="flex items-center justify-center gap-2 text-sm mb-3">
+                            <span class="text-yellow-500">★</span>
+                            <span class="text-amber-300 font-bold">${movie.rating}</span>
+                        </div>
+                        <p class="text-red-300/80 text-base leading-relaxed mb-3">${movie.description}</p>
+                        ${movie.imdb ? `<a href="${movie.imdb}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 text-sm font-semibold transition-colors">
+                            <span>📽️</span>
+                            <span>View on IMDB</span>
+                        </a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show page function
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+
+            // Show selected page
+            document.getElementById(`${page}-page`).classList.remove('hidden');
+
+            // Update navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = 'nav-btn px-4 py-2 font-mono text-base border rounded-lg transition-all hover:scale-105 bg-amber-900/20 border-amber-700/50 text-amber-300 hover:border-red-700/50 hover:text-red-300';
+            });
+
+            // Highlight active button
+            const activeBtn = document.getElementById(`nav-${page}`);
+            if (activeBtn) {
+                activeBtn.className = 'nav-btn px-4 py-2 font-mono text-base border rounded-lg transition-all hover:scale-105 bg-red-900/40 border-red-600/70 text-red-200';
+            }
+
+            currentPage = page;
+        }
+
+        // Start the app
+        init();
+    </script>
+</body>
+</html>

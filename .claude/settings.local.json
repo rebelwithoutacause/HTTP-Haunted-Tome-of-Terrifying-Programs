@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir backend)",
+      "Bash(dir:*)",
+      "Bash(npm install)",
+      "Bash(npm run dev:*)",
+      "Bash(node server.js)",
+      "Bash(findstr:*)",
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(tasklist)",
+      "WebSearch",
+      "Bash(pkill:*)",
+      "Bash(npm start)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(awk:*)",
+      "Bash(xargs:*)",
+      "Bash(npm run dev:frontend:*)",
+      "Bash(test:*)",
+      "Bash(npm --version)",
+      "Bash(npm install:*)",
+      "Bash(npx vite:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

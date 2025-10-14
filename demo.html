@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spooky Recipes - Backend Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%); }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+    <div class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-amber-200">🎃 Spooky Recipes API Test</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 p-6 rounded-lg border border-amber-600">
+                <h2 class="text-2xl font-bold mb-4 text-red-400">🔥 Backend Status</h2>
+                <button onclick="testHealth()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded mb-4">
+                    Test API Health
+                </button>
+                <div id="healthResult" class="text-sm font-mono"></div>
+            </div>
+
+            <div class="bg-gray-800 p-6 rounded-lg border border-amber-600">
+                <h2 class="text-2xl font-bold mb-4 text-red-400">🍴 Recipes</h2>
+                <button onclick="testRecipes()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded mb-4">
+                    Load Recipes
+                </button>
+                <div id="recipesResult" class="text-sm font-mono max-h-60 overflow-y-auto"></div>
+            </div>
+        </div>
+
+        <div class="mt-8 bg-gray-800 p-6 rounded-lg border border-amber-600">
+            <h2 class="text-2xl font-bold mb-4 text-red-400">📊 Server Info</h2>
+            <p class="text-amber-200">Backend running on: <span class="text-green-400">http://localhost:5001</span></p>
+            <p class="text-amber-200">Frontend will run on: <span class="text-green-400">http://localhost:3001</span></p>
+            <p class="text-sm text-gray-400 mt-2">No more port conflicts with Grafana!</p>
+        </div>
+    </div>
+
+    <script>
+        async function testHealth() {
+            const result = document.getElementById('healthResult');
+            result.innerHTML = 'Testing...';
+
+            try {
+                const response = await fetch('http://localhost:5001/api/health');
+                const data = await response.json();
+                result.innerHTML = `<div class="text-green-400">✅ SUCCESS</div><pre class="text-gray-300">${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                result.innerHTML = `<div class="text-red-400">❌ ERROR</div><div class="text-gray-300">${error.message}</div>`;
+            }
+        }
+
+        async function testRecipes() {
+            const result = document.getElementById('recipesResult');
+            result.innerHTML = 'Loading recipes...';
+
+            try {
+                const response = await fetch('http://localhost:5001/api/recipes');
+                const data = await response.json();
+                result.innerHTML = `<div class="text-green-400">✅ Found ${data.length} recipes</div>` +
+                    data.slice(0, 3).map(recipe =>
+                        `<div class="border-t border-gray-600 mt-2 pt-2">
+                            <div class="text-amber-200">${recipe.image} ${recipe.title}</div>
+                            <div class="text-gray-400 text-xs">${recipe.category} • ${recipe.time} min • ${recipe.difficulty}</div>
+                        </div>`
+                    ).join('');
+            } catch (error) {
+                result.innerHTML = `<div class="text-red-400">❌ ERROR</div><div class="text-gray-300">${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
