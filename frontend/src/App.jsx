@@ -60,7 +60,7 @@ const SpookyRecipesApp = () => {
   // Fact Detail View
   if (currentView === 'fact' && selectedFact) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-amber-950/20 to-black text-gray-100 p-4" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 p-4" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
         <div className="max-w-4xl mx-auto">
           <button
             onClick={() => {
@@ -73,7 +73,7 @@ const SpookyRecipesApp = () => {
             Back to Mysteries
           </button>
 
-          <div className="bg-gray-900/90 border border-amber-800/30 p-8 rounded">
+          <div className="bg-black/90 border border-amber-800/30 p-8 rounded">
             <div className="text-center mb-6">
               <h1 className="font-mono text-4xl text-amber-100 mb-4 tracking-wide">{selectedFact.title}</h1>
               <p className="text-amber-300/90 text-lg italic leading-relaxed">
@@ -99,7 +99,7 @@ const SpookyRecipesApp = () => {
   // Mysteries List View
   if (currentView === 'mysteries') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-amber-950/20 to-black text-gray-100" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
         <header className="bg-black border-b border-amber-900/50 p-4 sticky top-0 z-50">
           <div className="w-full flex items-center justify-between max-w-7xl mx-auto">
             <button
@@ -111,7 +111,7 @@ const SpookyRecipesApp = () => {
             </button>
             <div className="flex items-center gap-3">
               <BookOpen className="w-8 h-8 text-red-600" />
-              <h1 className="font-mono text-2xl text-amber-100 tracking-wider">
+              <h1 className="font-mono text-2xl text-amber-100 tracking-wider flicker-text">
                 ANCIENT HALLOWEEN MYSTERIES
               </h1>
             </div>
@@ -132,7 +132,7 @@ const SpookyRecipesApp = () => {
                   setSelectedFact(fact);
                   setCurrentView('fact');
                 }}
-                className="bg-gray-900/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-6 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded group"
+                className="bg-black/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-6 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded group"
               >
                 <h3 className="font-mono text-lg text-amber-100 mb-3 leading-tight tracking-wide uppercase">
                   {fact.title}
@@ -155,7 +155,7 @@ const SpookyRecipesApp = () => {
   // Movie Detail View
   if (currentView === 'movie' && selectedMovie) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-amber-950/20 to-black text-gray-100 p-4" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 p-4" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
         <div className="max-w-6xl mx-auto">
           <button
             onClick={() => {
@@ -168,7 +168,7 @@ const SpookyRecipesApp = () => {
             Back to Horror Collection
           </button>
 
-          <div className="bg-gray-900/90 border border-amber-800/30 p-8 rounded">
+          <div className="bg-black/90 border border-amber-800/30 p-8 rounded">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Movie Poster */}
               <div className="md:col-span-1">
@@ -224,7 +224,7 @@ const SpookyRecipesApp = () => {
   // Movies List View
   if (currentView === 'movies') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-amber-950/20 to-black text-gray-100" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
         <header className="bg-black border-b border-amber-900/50 p-4 sticky top-0 z-50">
           <div className="w-full flex items-center justify-between max-w-7xl mx-auto">
             <button
@@ -236,7 +236,7 @@ const SpookyRecipesApp = () => {
             </button>
             <div className="flex items-center gap-3">
               <Film className="w-8 h-8 text-red-600" />
-              <h1 className="font-mono text-2xl text-amber-100 tracking-wider">
+              <h1 className="font-mono text-2xl text-amber-100 tracking-wider flicker-text">
                 HORROR CINEMA VAULT
               </h1>
             </div>
@@ -257,7 +257,7 @@ const SpookyRecipesApp = () => {
                   setSelectedMovie(movie);
                   setCurrentView('movie');
                 }}
-                className="bg-gray-900/80 border border-amber-800/30 p-4 hover:border-red-700/50 transition-all duration-300 hover:shadow-lg cursor-pointer rounded group"
+                className="bg-black/80 border border-amber-800/30 p-4 hover:border-red-700/50 transition-all duration-300 hover:shadow-lg cursor-pointer rounded group"
               >
                 {movie.poster && (
                   <img
@@ -296,7 +296,7 @@ const SpookyRecipesApp = () => {
 
   if (currentView === 'recipe' && selectedRecipe) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-amber-950/20 to-black text-gray-100 p-4" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 p-4" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
         <div className="max-w-4xl mx-auto">
           <button
             onClick={() => setCurrentView('recipes')}
@@ -306,7 +306,7 @@ const SpookyRecipesApp = () => {
             Back to Recipes
           </button>
 
-          <div className="bg-gray-900/90 border border-amber-800/30 p-8 rounded">
+          <div className="bg-black/90 border border-amber-800/30 p-8 rounded">
             <div className="flex items-start justify-between mb-6 gap-4">
               <div>
                 <h1 className="font-mono text-3xl text-amber-100 mb-2 tracking-wide">{selectedRecipe.title}</h1>
@@ -500,7 +500,7 @@ const SpookyRecipesApp = () => {
   // Recipes View (renamed from 'home')
   if (currentView === 'recipes') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-amber-950/20 to-black text-gray-100" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
         {/* Header */}
         <header className="bg-black border-b border-amber-900/50 p-4 sticky top-0 z-50">
           <div className="w-full flex items-center justify-between max-w-7xl mx-auto">
@@ -557,7 +557,7 @@ const SpookyRecipesApp = () => {
               setSelectedRecipe(recipe);
               setCurrentView('recipe');
             }}
-            className={`bg-gray-900/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-4 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded ${glitchEffect ? 'animate-pulse' : ''}`}
+            className={`bg-black/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-4 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded ${glitchEffect ? 'animate-pulse' : ''}`}
           >
             <div className="flex justify-between items-start mb-2 gap-2">
               <h3 className="font-mono text-lg text-amber-100 leading-tight tracking-wide">{recipe.title}</h3>
