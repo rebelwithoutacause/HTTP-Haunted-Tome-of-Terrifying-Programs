@@ -25,10 +25,30 @@ const SpookyRecipesApp = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
   const [glitchEffect, setGlitchEffect] = useState(false);
+  const [lightning, setLightning] = useState(false);
+  const [thunder, setThunder] = useState(false);
   const [recipes] = useState(allRecipes);
   const [categories] = useState(defaultCategories);
   const [facts] = useState(defaultFacts);
   const [movies] = useState(allMovies);
+
+  const [bloodDrips] = useState(() =>
+    Array.from({ length: 14 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      len: 30 + Math.random() * 90,
+      duration: 6 + Math.random() * 8,
+      delay: Math.random() * 6
+    }))
+  );
+  const [bloodDrops] = useState(() =>
+    Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      duration: 3 + Math.random() * 3,
+      delay: Math.random() * 5
+    }))
+  );
 
   // Glitch effect
   useEffect(() => {
@@ -38,6 +58,27 @@ const SpookyRecipesApp = () => {
         setTimeout(() => setGlitchEffect(false), 150);
       }
     }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Lightning + thunder effect, roughly storm-paced
+  useEffect(() => {
+    const strike = () => {
+      setLightning(true);
+      setTimeout(() => setLightning(false), 90);
+      // occasional double-flash, like a real strike
+      if (Math.random() < 0.5) {
+        setTimeout(() => setLightning(true), 160);
+        setTimeout(() => setLightning(false), 230);
+      }
+      setTimeout(() => {
+        setThunder(true);
+        setTimeout(() => setThunder(false), 400);
+      }, 250);
+    };
+    const interval = setInterval(() => {
+      if (Math.random() < 0.25) strike();
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
@@ -384,7 +425,37 @@ const SpookyRecipesApp = () => {
   // Landing Page View
   if (currentView === 'landing') {
     return (
-      <div className="min-h-screen bg-black text-gray-100 flex items-center justify-center relative overflow-hidden" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className={`min-h-screen bg-black text-gray-100 flex items-center justify-center relative overflow-hidden ${thunder ? 'thunder-shake' : ''}`} style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+        {/* Lightning flash */}
+        <div className={`lightning-flash ${lightning ? 'is-active' : ''}`}></div>
+
+        {/* Blood dripping from the top edge */}
+        <div className="blood-drips">
+          {bloodDrips.map(d => (
+            <div
+              key={`drip-${d.id}`}
+              className="blood-drip"
+              style={{
+                left: `${d.left}%`,
+                '--drip-len': `${d.len}px`,
+                animationDuration: `${d.duration}s`,
+                animationDelay: `${d.delay}s`
+              }}
+            ></div>
+          ))}
+          {bloodDrops.map(d => (
+            <div
+              key={`drop-${d.id}`}
+              className="blood-drop"
+              style={{
+                left: `${d.left}%`,
+                animationDuration: `${d.duration}s`,
+                animationDelay: `${d.delay}s`
+              }}
+            ></div>
+          ))}
+        </div>
+
         {/* VHS scanlines, rolling top-to-bottom like an old tape */}
         <div className="absolute inset-0 pointer-events-none z-20 vhs-scanlines"></div>
 
@@ -416,17 +487,17 @@ const SpookyRecipesApp = () => {
             <div className="flex items-center justify-center gap-4 mb-6">
               <Skull className={`w-16 h-16 md:w-24 md:h-24 text-red-600 drop-shadow-[0_0_30px_rgba(220,38,38,0.8)] transition-all duration-150 ${glitchEffect ? 'animate-pulse scale-110' : ''}`} />
             </div>
-            <h1 className={`font-mono text-5xl md:text-7xl lg:text-8xl font-bold mb-4 transition-all duration-150 ${glitchEffect ? 'blur-sm scale-105' : ''}`}
+            <h1 className={`horror-font text-4xl md:text-6xl lg:text-7xl mb-4 transition-all duration-150 ${glitchEffect ? 'blur-sm scale-105' : ''}`}
                 style={{
                   textShadow: glitchEffect
                     ? '-3px 0 rgba(255,0,60,0.85), 3px 0 rgba(0,220,255,0.6), 0 0 20px rgba(220, 38, 38, 0.8), 4px 4px 0px rgba(0,0,0,0.8)'
                     : '-1px 0 rgba(255,0,60,0.35), 1px 0 rgba(0,220,255,0.25), 0 0 20px rgba(220, 38, 38, 0.8), 0 0 40px rgba(220, 38, 38, 0.6), 4px 4px 0px rgba(0,0,0,0.8)',
                   color: '#dc2626',
-                  letterSpacing: '0.1em'
+                  letterSpacing: '0.05em'
                 }}>
               SPOOKY
             </h1>
-            <h2 className="font-mono text-3xl md:text-5xl text-amber-400 tracking-widest"
+            <h2 className="horror-font text-2xl md:text-4xl text-amber-400 tracking-wide"
                 style={{
                   textShadow: '0 0 15px rgba(251, 191, 36, 0.6), 2px 2px 0px rgba(0,0,0,0.8)'
                 }}>
@@ -448,11 +519,11 @@ const SpookyRecipesApp = () => {
               }}
             >
               <Skull className="w-16 h-16 mx-auto mb-4 text-red-700 group-hover:text-red-500 group-hover:scale-110 transition-all drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]" />
-              <h3 className="font-mono text-2xl md:text-3xl text-amber-100 mb-2 tracking-wider font-bold"
+              <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-2 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 CURSED
               </h3>
-              <h3 className="font-mono text-2xl md:text-3xl text-amber-100 mb-3 tracking-wider font-bold"
+              <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-3 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 RECIPES
               </h3>
@@ -468,11 +539,11 @@ const SpookyRecipesApp = () => {
               }}
             >
               <Film className="w-16 h-16 mx-auto mb-4 text-red-700 group-hover:text-red-500 group-hover:scale-110 transition-all drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]" />
-              <h3 className="font-mono text-2xl md:text-3xl text-amber-100 mb-2 tracking-wider font-bold"
+              <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-2 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 HORROR
               </h3>
-              <h3 className="font-mono text-2xl md:text-3xl text-amber-100 mb-3 tracking-wider font-bold"
+              <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-3 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 CINEMA
               </h3>
@@ -488,11 +559,11 @@ const SpookyRecipesApp = () => {
               }}
             >
               <BookOpen className="w-16 h-16 mx-auto mb-4 text-red-700 group-hover:text-red-500 group-hover:scale-110 transition-all drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]" />
-              <h3 className="font-mono text-2xl md:text-3xl text-amber-100 mb-2 tracking-wider font-bold"
+              <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-2 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 ANCIENT
               </h3>
-              <h3 className="font-mono text-2xl md:text-3xl text-amber-100 mb-3 tracking-wider font-bold"
+              <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-3 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 MYSTERIES
               </h3>
