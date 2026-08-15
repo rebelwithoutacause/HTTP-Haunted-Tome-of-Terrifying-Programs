@@ -5,6 +5,9 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%80%3C/text%3E%3C/svg%3E" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spooky Grimoire - Halloween Recipes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       * {
@@ -88,8 +91,82 @@
       @media (prefers-reduced-motion: reduce) {
         .vhs-scanlines, .vhs-rec-dot { animation: none; }
       }
+
+      /* Sinister display font for titles - dripping, jagged, unmistakably horror */
+      .horror-font {
+        font-family: 'Nosifer', 'Times New Roman', serif;
+      }
+
+      /* Lightning flash overlay */
+      .lightning-flash {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        pointer-events: none;
+        background: radial-gradient(ellipse at center, rgba(220,230,255,0.95) 0%, rgba(180,200,255,0.5) 40%, transparent 75%);
+        opacity: 0;
+        transition: opacity 60ms ease-out;
+      }
+      .lightning-flash.is-active {
+        opacity: 1;
+        transition: opacity 30ms ease-in;
+      }
+      .thunder-shake {
+        animation: thunder-shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+      }
+      @keyframes thunder-shake {
+        10%, 90% { transform: translate3d(-1px, 0, 0); }
+        20%, 80% { transform: translate3d(2px, 0, 0); }
+        30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+        40%, 60% { transform: translate3d(3px, 0, 0); }
+      }
+
+      /* Blood dripping from the top edge of the landing page */
+      .blood-drips {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 0;
+        z-index: 15;
+        pointer-events: none;
+      }
+      .blood-drip {
+        position: absolute;
+        top: 0;
+        width: 5px;
+        border-radius: 0 0 4px 4px;
+        background: linear-gradient(to bottom, #5c0008, #8b0000 40%, #c1121f 75%, rgba(193,18,31,0));
+        box-shadow: 0 0 6px rgba(139,0,0,0.6);
+        transform-origin: top center;
+        animation: drip-grow linear infinite;
+      }
+      .blood-drop {
+        position: absolute;
+        top: 0;
+        width: 6px;
+        height: 9px;
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        background: radial-gradient(circle at 35% 30%, #e5484d, #8b0000 70%);
+        box-shadow: 0 0 5px rgba(139,0,0,0.7);
+        animation: drop-fall linear infinite;
+      }
+      @keyframes drip-grow {
+        0% { height: 0; opacity: 0.9; }
+        60% { opacity: 0.9; }
+        100% { height: var(--drip-len, 60px); opacity: 0.9; }
+      }
+      @keyframes drop-fall {
+        0% { transform: translateY(0); opacity: 0; }
+        8% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(70vh); opacity: 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .blood-drip, .blood-drop, .thunder-shake { animation: none; }
+      }
     </style>
-    <script type="module" crossorigin src="/HTTP-Haunted-Tome-of-Terrifying-Programs/assets/index-398f3dd3.js"></script>
+    <script type="module" crossorigin src="/HTTP-Haunted-Tome-of-Terrifying-Programs/assets/index-d58faede.js"></script>
   </head>
   <body>
     <div id="root"></div>
