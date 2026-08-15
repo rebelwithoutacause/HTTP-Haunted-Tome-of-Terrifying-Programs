@@ -75,8 +75,7 @@ const SpookyRecipesApp = () => {
 
           <div className="bg-gray-900/90 border border-amber-800/30 p-8 rounded">
             <div className="text-center mb-6">
-              <div className="text-8xl mb-4">{selectedFact.icon}</div>
-              <h1 className="font-mono text-4xl text-amber-100 mb-4">{selectedFact.title}</h1>
+              <h1 className="font-mono text-4xl text-amber-100 mb-4 tracking-wide">{selectedFact.title}</h1>
               <p className="text-amber-300/90 text-lg italic leading-relaxed">
                 {selectedFact.fact}
               </p>
@@ -133,22 +132,17 @@ const SpookyRecipesApp = () => {
                   setSelectedFact(fact);
                   setCurrentView('fact');
                 }}
-                className="bg-gray-900/80 border border-amber-800/30 p-6 hover:border-red-700/50 transition-all duration-300 hover:shadow-lg cursor-pointer rounded group"
+                className="bg-gray-900/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-6 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded group"
               >
-                <div className="flex items-start gap-4">
-                  <span className="text-7xl group-hover:scale-110 transition-transform">{fact.icon}</span>
-                  <div className="flex-1">
-                    <h3 className="font-mono text-lg text-amber-100 mb-3 leading-tight">
-                      {fact.title}
-                    </h3>
-                    <p className="text-amber-300/80 text-sm leading-relaxed line-clamp-4">
-                      {fact.fact}
-                    </p>
-                    <div className="mt-4 text-xs text-red-400 font-mono flex items-center gap-1">
-                      <BookOpen className="w-3 h-3" />
-                      Read full story →
-                    </div>
-                  </div>
+                <h3 className="font-mono text-lg text-amber-100 mb-3 leading-tight tracking-wide uppercase">
+                  {fact.title}
+                </h3>
+                <p className="text-amber-300/80 text-sm leading-relaxed line-clamp-4">
+                  {fact.fact}
+                </p>
+                <div className="mt-4 text-xs text-red-400 font-mono flex items-center gap-1">
+                  <BookOpen className="w-3 h-3" />
+                  Read full story →
                 </div>
               </div>
             ))}
@@ -313,13 +307,10 @@ const SpookyRecipesApp = () => {
           </button>
 
           <div className="bg-gray-900/90 border border-amber-800/30 p-8 rounded">
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <div className="text-9xl">{selectedRecipe.image}</div>
-                <div>
-                  <h1 className="font-mono text-3xl text-amber-100 mb-2">{selectedRecipe.title}</h1>
-                  <p className="text-amber-200/80 italic text-lg">{selectedRecipe.description}</p>
-                </div>
+            <div className="flex items-start justify-between mb-6 gap-4">
+              <div>
+                <h1 className="font-mono text-3xl text-amber-100 mb-2 tracking-wide">{selectedRecipe.title}</h1>
+                <p className="text-amber-200/80 italic text-lg">{selectedRecipe.description}</p>
               </div>
               <button
                 onClick={() => toggleFavorite(selectedRecipe.id)}
@@ -566,23 +557,19 @@ const SpookyRecipesApp = () => {
               setSelectedRecipe(recipe);
               setCurrentView('recipe');
             }}
-            className={`bg-gray-900/80 border border-amber-800/30 p-4 hover:border-red-700/50 transition-all duration-300 hover:shadow-lg cursor-pointer rounded ${glitchEffect ? 'animate-pulse' : ''}`}
+            className={`bg-gray-900/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-4 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded ${glitchEffect ? 'animate-pulse' : ''}`}
           >
-            <div className="flex justify-end mb-2">
+            <div className="flex justify-between items-start mb-2 gap-2">
+              <h3 className="font-mono text-lg text-amber-100 leading-tight tracking-wide">{recipe.title}</h3>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleFavorite(recipe.id);
                 }}
-                className={`p-1 transition-colors ${favorites.has(recipe.id) ? 'text-red-500' : 'text-amber-500 hover:text-red-400'}`}
+                className={`p-1 -mt-1 -mr-1 transition-colors shrink-0 ${favorites.has(recipe.id) ? 'text-red-500' : 'text-amber-500 hover:text-red-400'}`}
               >
                 <Heart className="w-5 h-5" fill={favorites.has(recipe.id) ? 'currentColor' : 'none'} />
               </button>
-            </div>
-
-            <div className="text-center mb-4">
-              <div className="text-7xl mb-3 mx-auto">{recipe.image}</div>
-              <h3 className="font-mono text-lg text-amber-100 mb-2 leading-tight">{recipe.title}</h3>
             </div>
             <p className="text-amber-200/80 text-lg mb-3 italic">{recipe.description}</p>
 
