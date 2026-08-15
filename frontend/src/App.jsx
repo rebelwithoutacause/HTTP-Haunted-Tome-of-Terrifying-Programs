@@ -87,6 +87,38 @@ const SpookyRecipesApp = () => {
     selectedCategory === 'all' || recipe.category === selectedCategory
   );
 
+  // Shared storm atmosphere: lightning flash + dripping blood, reused on every page
+  const atmosphereFX = (
+    <>
+      <div className={`lightning-flash ${lightning ? 'is-active' : ''}`}></div>
+      <div className="blood-drips">
+        {bloodDrips.map(d => (
+          <div
+            key={`drip-${d.id}`}
+            className="blood-drip"
+            style={{
+              left: `${d.left}%`,
+              '--drip-len': `${d.len}px`,
+              animationDuration: `${d.duration}s`,
+              animationDelay: `${d.delay}s`
+            }}
+          ></div>
+        ))}
+        {bloodDrops.map(d => (
+          <div
+            key={`drop-${d.id}`}
+            className="blood-drop"
+            style={{
+              left: `${d.left}%`,
+              animationDuration: `${d.duration}s`,
+              animationDelay: `${d.delay}s`
+            }}
+          ></div>
+        ))}
+      </div>
+    </>
+  );
+
   const toggleFavorite = (id) => {
     const newFavorites = new Set(favorites);
     if (newFavorites.has(id)) {
@@ -101,7 +133,8 @@ const SpookyRecipesApp = () => {
   // Fact Detail View
   if (currentView === 'fact' && selectedFact) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 p-4" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className={`min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 p-4 relative ${thunder ? 'thunder-shake' : ''}`} style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+        {atmosphereFX}
         <div className="max-w-4xl mx-auto">
           <button
             onClick={() => {
@@ -140,7 +173,8 @@ const SpookyRecipesApp = () => {
   // Mysteries List View
   if (currentView === 'mysteries') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className={`min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 relative ${thunder ? 'thunder-shake' : ''}`} style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+        {atmosphereFX}
         <header className="bg-black border-b border-amber-900/50 p-4 sticky top-0 z-50">
           <div className="w-full flex items-center justify-between max-w-7xl mx-auto">
             <button
@@ -152,7 +186,7 @@ const SpookyRecipesApp = () => {
             </button>
             <div className="flex items-center gap-3">
               <BookOpen className="w-8 h-8 text-red-600" />
-              <h1 className="font-mono text-2xl text-amber-100 tracking-wider flicker-text">
+              <h1 className="horror-font text-xl md:text-2xl text-amber-100 tracking-wide flicker-text">
                 ANCIENT HALLOWEEN MYSTERIES
               </h1>
             </div>
@@ -196,7 +230,8 @@ const SpookyRecipesApp = () => {
   // Movie Detail View
   if (currentView === 'movie' && selectedMovie) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 p-4" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className={`min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 p-4 relative ${thunder ? 'thunder-shake' : ''}`} style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+        {atmosphereFX}
         <div className="max-w-6xl mx-auto">
           <button
             onClick={() => {
@@ -265,7 +300,8 @@ const SpookyRecipesApp = () => {
   // Movies List View
   if (currentView === 'movies') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className={`min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 relative ${thunder ? 'thunder-shake' : ''}`} style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+        {atmosphereFX}
         <header className="bg-black border-b border-amber-900/50 p-4 sticky top-0 z-50">
           <div className="w-full flex items-center justify-between max-w-7xl mx-auto">
             <button
@@ -277,7 +313,7 @@ const SpookyRecipesApp = () => {
             </button>
             <div className="flex items-center gap-3">
               <Film className="w-8 h-8 text-red-600" />
-              <h1 className="font-mono text-2xl text-amber-100 tracking-wider flicker-text">
+              <h1 className="horror-font text-xl md:text-2xl text-amber-100 tracking-wide flicker-text">
                 HORROR CINEMA VAULT
               </h1>
             </div>
@@ -337,7 +373,8 @@ const SpookyRecipesApp = () => {
 
   if (currentView === 'recipe' && selectedRecipe) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 p-4" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className={`min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 p-4 relative ${thunder ? 'thunder-shake' : ''}`} style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+        {atmosphereFX}
         <div className="max-w-4xl mx-auto">
           <button
             onClick={() => setCurrentView('recipes')}
@@ -590,7 +627,8 @@ const SpookyRecipesApp = () => {
   // Recipes View (renamed from 'home')
   if (currentView === 'recipes') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+      <div className={`min-h-screen bg-gradient-to-b from-black via-red-950/10 to-black text-gray-100 relative ${thunder ? 'thunder-shake' : ''}`} style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+        {atmosphereFX}
         {/* Header */}
         <header className="bg-black border-b border-amber-900/50 p-4 sticky top-0 z-50">
           <div className="w-full flex items-center justify-between max-w-7xl mx-auto">
@@ -603,7 +641,7 @@ const SpookyRecipesApp = () => {
             </button>
             <div className="flex items-center gap-3">
               <Skull className="w-8 h-8 text-red-600" />
-              <h1 className={`font-mono text-2xl text-amber-100 tracking-wider transition-all duration-150 ${glitchEffect ? 'blur-sm opacity-70' : ''}`}>
+              <h1 className={`horror-font text-xl md:text-2xl text-amber-100 tracking-wide transition-all duration-150 ${glitchEffect ? 'blur-sm opacity-70' : ''}`}>
                 SPOOKY GRIMOIRE
               </h1>
             </div>
