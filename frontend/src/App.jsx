@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Clock, Skull, ArrowLeft, Filter, BookOpen, Film, Star, ExternalLink } from 'lucide-react';
-import axios from 'axios';
+import { recipes as allRecipes } from './data/recipes.js';
+import { categories as defaultCategories } from './data/categories.js';
+import { facts as defaultFacts } from './data/facts.js';
+import { movies as allMovies } from './data/movies.js';
+
+const FAVORITES_STORAGE_KEY = 'spooky_favorites';
+const posterUrl = (poster) => `${import.meta.env.BASE_URL}${poster}`;
 
 const SpookyRecipesApp = () => {
   // Main app state
@@ -8,104 +14,21 @@ const SpookyRecipesApp = () => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedFact, setSelectedFact] = useState(null);
-  const [favorites, setFavorites] = useState(new Set());
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]');
+      return new Set(stored);
+    } catch {
+      return new Set();
+    }
+  });
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
   const [glitchEffect, setGlitchEffect] = useState(false);
-  const [recipes, setRecipes] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [facts, setFacts] = useState([]);
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch data from API
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [recipesRes, categoriesRes, factsRes, moviesRes] = await Promise.all([
-          axios.get('/api/recipes'),
-          axios.get('/api/categories'),
-          axios.get('/api/facts'),
-          axios.get('/api/movies')
-        ]);
-
-        setRecipes(recipesRes.data);
-        setCategories(categoriesRes.data);
-        setFacts(factsRes.data);
-        setMovies(moviesRes.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        // Fallback to local data if API fails
-        setRecipes(allRecipes);
-        setCategories(defaultCategories);
-        setFacts(defaultFacts);
-        setMovies([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  // Fallback data (same as original)
-  const allRecipes = [
-    // COOKIES (6)
-    { id: 1, title: "Witch's Finger Cookies", category: 'cookies', time: 35, difficulty: 'Easy', image: '🧙‍♀️', rating: 4.7, description: 'Eerily realistic finger cookies that will make your guests squirm...', ingredients: ['Butter', 'Sugar', 'Flour', 'Almond extract', 'Sliced almonds'], instructions: ['Preheat oven to 350°F/175°C', 'Mix butter, sugar, and almond extract', 'Add flour to form dough', 'Shape into finger-like cookies', 'Press almond for fingernail', 'Bake 12–15 min until golden'] },
-    { id: 2, title: "Pumpkin Spider Cookies", category: 'cookies', time: 40, difficulty: 'Medium', image: '🕷️', rating: 4.5, description: 'Spooky spider cookies that crawl off the plate...', ingredients: ['Pumpkin puree', 'Sugar', 'Flour', 'Cocoa powder', 'Chocolate chips'], instructions: ['Preheat oven to 350°F/175°C', 'Mix pumpkin puree with sugar', 'Add flour and cocoa powder', 'Shape cookies, add chocolate chips as eyes', 'Bake 12–15 min'] },
-    { id: 3, title: "Graveyard Dirt Cookies", category: 'cookies', time: 60, difficulty: 'Medium', image: '🪦', rating: 4.6, description: 'Cookies that taste like they were dug up from the cemetery...', ingredients: ['Chocolate cookies', 'Oreo crumbs', 'Dark chocolate chips', 'Gummy worms'], instructions: ['Crush Oreos into fine dirt-like crumbs', 'Mix cookie dough with chocolate chips', 'Roll into balls and flatten', 'Bake at 350°F/175°C for 12 minutes', 'Roll warm cookies in Oreo crumbs', 'Top with gummy worms'] },
-    { id: 4, title: "Spider Leg Gingersnaps", category: 'cookies', time: 45, difficulty: 'Easy', image: '🕸️', rating: 4.4, description: 'Crispy cookies with legs that crunch between your teeth...', ingredients: ['Ginger', 'Molasses', 'Dark brown sugar', 'Black icing', 'Pretzel sticks'], instructions: ['Mix spices and molasses', 'Form dough into spider body shapes', 'Bake at 375°F/190°C for 10 minutes', 'Cool completely before decorating', 'Use black icing to attach pretzel stick legs', 'Add icing dots for eyes'] },
-    { id: 5, title: "Ghost Meringue Cookies", category: 'cookies', time: 90, difficulty: 'Hard', image: '👻', rating: 4.3, description: 'Ethereal white cookies that float like spirits...', ingredients: ['Egg whites', 'Sugar', 'Vanilla extract', 'Black chocolate chips'], instructions: ['Whip egg whites until soft peaks form', 'Gradually add sugar until stiff peaks', 'Pipe ghost shapes on parchment paper', 'Add chocolate chip eyes and mouth', 'Bake at 200°F/93°C for 3 hours until crisp'] },
-    { id: 6, title: "Bat Wing Brownies", category: 'cookies', time: 55, difficulty: 'Medium', image: '🦇', rating: 4.8, description: 'Dark brownies shaped like bat wings...', ingredients: ['Dark chocolate', 'Butter', 'Eggs', 'Sugar', 'Flour', 'Oreo cookies'], instructions: ['Melt chocolate and butter', 'Mix in eggs and sugar', 'Fold in flour', 'Bake at 350°F/175°C for 25 minutes', 'Cut into bat wing shapes', 'Insert Oreo halves as bodies'] },
-
-    // DRINKS (6)
-    { id: 7, title: "Bloody Vampire Punch", category: 'drinks', time: 10, difficulty: 'Easy', image: '🧛‍♂️', rating: 4.8, description: 'A crimson punch that flows like fresh vampire blood...', ingredients: ['Cranberry juice', 'Orange soda', 'Grenadine', 'Ice'], instructions: ['Mix cranberry juice and orange soda', 'Add grenadine slowly for blood effect', 'Serve with ice cubes'] },
-    { id: 8, title: "Witch's Brew Punch", category: 'drinks', time: 15, difficulty: 'Easy', image: '🧙‍♀️', rating: 4.6, description: 'A bubbling green concoction that would make any witch cackle...', ingredients: ['Green apple juice', 'Lemon-lime soda', 'Gummy worms'], instructions: ['Mix apple juice and soda in a large bowl', 'Add gummy worms for creepy effect', 'Serve chilled in cauldron mugs'] },
-    { id: 9, title: "Ghostly White Punch", category: 'drinks', time: 25, difficulty: 'Medium', image: '👻', rating: 4.4, description: 'A pale, ethereal punch that floats like spirits...', ingredients: ['Coconut milk', 'White grape juice', 'Vanilla ice cream', 'Club soda'], instructions: ['Blend coconut milk with vanilla ice cream', 'Add white grape juice while stirring', 'Chill mixture for 2 hours', 'Add club soda before serving', 'Float marshmallow ghosts on top'] },
-    { id: 10, title: "Cauldron Bubble Punch", category: 'drinks', time: 20, difficulty: 'Easy', image: '🔮', rating: 4.7, description: 'A bubbling cauldron that fizzes with magical power...', ingredients: ['Green sherbet', 'Lemon-lime soda', 'Pineapple juice', 'Gummy eyeballs'], instructions: ['Scoop green sherbet into punch bowl', 'Mix pineapple juice with green coloring', 'Pour over sherbet and watch it foam', 'Add lemon-lime soda for bubbling', 'Float gummy eyeballs on surface'] },
-    { id: 11, title: "Zombie Brain Smoothie", category: 'drinks', time: 12, difficulty: 'Easy', image: '🧠', rating: 4.2, description: 'A pink smoothie that looks disturbingly like brain matter...', ingredients: ['Strawberries', 'Banana', 'Yogurt', 'Honey', 'Pink food coloring'], instructions: ['Blend strawberries and banana until chunky', 'Add yogurt and honey for creaminess', 'Mix in pink coloring', 'Blend with ice until thick but lumpy', 'Serve in clear glasses'] },
-    { id: 12, title: "Poison Apple Cider", category: 'drinks', time: 30, difficulty: 'Medium', image: '🍎', rating: 4.5, description: 'Steaming cider that bubbles with mysterious mist...', ingredients: ['Apple cider', 'Cinnamon sticks', 'Star anise', 'Red food coloring', 'Dry ice'], instructions: ['Heat apple cider with spices', 'Simmer for 20 minutes', 'Add red coloring for poison effect', 'Carefully add dry ice before serving', 'Serve while smoking'] },
-
-    // PIES (6)
-    { id: 13, title: "Eyeball Pumpkin Pie", category: 'pies', time: 60, difficulty: 'Medium', image: '👁️', rating: 4.9, description: 'A pie that stares back at you with creamy eyeball decorations...', ingredients: ['Pumpkin puree', 'Eggs', 'Sugar', 'Cinnamon', 'Pie crust', 'Whipped cream'], instructions: ['Preheat oven to 350°F/175°C', 'Mix pumpkin puree, eggs, sugar, cinnamon', 'Pour into pie crust', 'Bake 45 min', 'Decorate with whipped cream eyeballs'] },
-    { id: 14, title: "Creepy Chocolate Pie", category: 'pies', time: 50, difficulty: 'Medium', image: '🍫', rating: 4.5, description: 'A dark chocolate pie that watches you with candy eyes...', ingredients: ['Chocolate', 'Cream', 'Sugar', 'Pie crust', 'Candy eyes'], instructions: ['Preheat oven to 350°F/175°C', 'Prepare chocolate filling with cream and sugar', 'Pour into crust', 'Bake 20–25 min', 'Decorate with candy eyes'] },
-    { id: 15, title: "Black Widow Berry Pie", category: 'pies', time: 90, difficulty: 'Hard', image: '🕷️', rating: 4.6, description: 'A pie as dark as a widow veil with bursting berries...', ingredients: ['Blackberries', 'Blueberries', 'Dark cherry juice', 'Sugar', 'Pie crust'], instructions: ['Mix berries with sugar and black coloring', 'Let macerate for 30 minutes', 'Roll out pie crust', 'Fill with berry mixture', 'Create lattice top like spider web', 'Bake at 375°F/190°C for 50 minutes'] },
-    { id: 16, title: "Skeleton Key Lime Pie", category: 'pies', time: 75, difficulty: 'Medium', image: '💀', rating: 4.3, description: 'A pale pie that unlocks citrus perfection...', ingredients: ['Key lime juice', 'Condensed milk', 'Graham crackers', 'White chocolate'], instructions: ['Crush graham crackers into dust', 'Press into pie pan and chill', 'Whisk lime juice with condensed milk', 'Pour into crust and refrigerate 4 hours', 'Grate white chocolate like bone shavings'] },
-    { id: 17, title: "Graveyard Mud Pie", category: 'pies', time: 120, difficulty: 'Hard', image: '⚰️', rating: 4.7, description: 'A layered pie that looks like a freshly dug grave...', ingredients: ['Chocolate pudding', 'Oreo cookies', 'Whipped cream', 'Chocolate cake', 'Gummy worms'], instructions: ['Bake chocolate cake and cool', 'Layer cake pieces in pie dish', 'Pour chocolate pudding over cake', 'Crush Oreos into dirt', 'Spread whipped cream and top with Oreo dirt', 'Decorate with gummy worms and tombstones'] },
-    { id: 18, title: "Bloody Orange Tart", category: 'pies', time: 85, difficulty: 'Medium', image: '🍊', rating: 4.4, description: 'A tart filled with blood-red citrus that oozes...', ingredients: ['Blood oranges', 'Pastry crust', 'Eggs', 'Sugar', 'Butter', 'Red food coloring'], instructions: ['Pre-bake tart shell until golden', 'Juice blood oranges and mix with eggs and sugar', 'Add butter and red coloring for blood effect', 'Pour filling into tart shell', 'Bake at 325°F/163°C for 35 minutes', 'Garnish with blood orange slices'] },
-
-    // MAINS (5)
-    { id: 19, title: "Mummy Meatloaf", category: 'mains', time: 75, difficulty: 'Medium', image: '🏺', rating: 4.6, description: 'A wrapped meatloaf that looks like an ancient Egyptian mummy...', ingredients: ['Ground beef', 'Breadcrumbs', 'Eggs', 'Onion', 'Bacon strips', 'Olive slices'], instructions: ['Mix ground beef, breadcrumbs, eggs, and onion', 'Form into mummy shape', 'Wrap bacon strips like bandages', 'Bake at 350°F/175°C for 60 minutes', 'Brush with ketchup glaze', 'Add olive slices as eyes'] },
-    { id: 20, title: "Spidery Black Pasta", category: 'mains', time: 30, difficulty: 'Easy', image: '🕷️', rating: 4.4, description: 'Dark pasta that looks like it\'s crawling with spiders...', ingredients: ['Black squid ink pasta', 'Olive oil', 'Garlic', 'Cherry tomatoes', 'Black olives'], instructions: ['Cook squid ink pasta until al dente', 'Sauté garlic in olive oil', 'Add cherry tomatoes and cook until soft', 'Toss pasta with garlic tomato mixture', 'Garnish with halved black olives as spiders', 'Top with Parmesan'] },
-    { id: 21, title: "Pumpkin Stuffed Peppers", category: 'mains', time: 65, difficulty: 'Medium', image: '🎃', rating: 4.7, description: 'Orange peppers carved like jack-o\'-lanterns...', ingredients: ['Orange bell peppers', 'Ground turkey', 'Rice', 'Pumpkin puree', 'Cheese'], instructions: ['Cut jack-o\'-lantern faces into peppers', 'Remove seeds and membranes', 'Brown ground turkey with onion', 'Mix cooked rice, turkey, and pumpkin puree', 'Stuff peppers and top with cheese', 'Bake at 375°F/190°C for 45 minutes'] },
-    { id: 22, title: "Witch Hat Pizza", category: 'mains', time: 45, difficulty: 'Easy', image: '🧙‍♀️', rating: 4.3, description: 'Pizza cut into triangular witch hats...', ingredients: ['Pizza dough', 'Black olive tapenade', 'Mozzarella', 'Pepperoni', 'Yellow bell pepper'], instructions: ['Roll pizza dough into circle', 'Spread black olive tapenade as sauce', 'Add mozzarella and pepperoni', 'Bake at 425°F/220°C for 20 minutes', 'Cut into triangle witch hat shapes', 'Garnish with yellow pepper strips'] },
-    { id: 23, title: "Graveyard Shepherd\'s Pie", category: 'mains', time: 90, difficulty: 'Hard', image: '⚰️', rating: 4.8, description: 'Shepherd\'s pie decorated like a spooky graveyard...', ingredients: ['Ground lamb', 'Mashed potatoes', 'Carrots', 'Peas', 'Onion', 'Rosemary sprigs'], instructions: ['Brown ground lamb with onion and carrots', 'Add peas and simmer 15 minutes', 'Spread meat mixture in baking dish', 'Pipe mashed potatoes in grave mounds', 'Bake at 400°F/200°C for 25 minutes', 'Insert rosemary sprigs as tombstones'] },
-
-    // SNACKS (5)
-    { id: 24, title: "Mummy Hot Dogs", category: 'snacks', time: 25, difficulty: 'Easy', image: '🌭', rating: 4.5, description: 'Hot dogs wrapped in pastry strips like ancient mummies...', ingredients: ['Hot dogs', 'Puff pastry strips', 'Mustard', 'Ketchup'], instructions: ['Cut puff pastry into thin strips', 'Wrap hot dogs with pastry like bandages', 'Leave gaps for mummy effect', 'Bake at 375°F/190°C for 15 minutes', 'Add mustard dots for eyes', 'Serve with ketchup blood'] },
-    { id: 25, title: "Spider Deviled Eggs", category: 'snacks', time: 35, difficulty: 'Medium', image: '🥚', rating: 4.4, description: 'Classic deviled eggs transformed into creepy crawly spiders...', ingredients: ['Hard-boiled eggs', 'Mayonnaise', 'Mustard', 'Black olives', 'Paprika'], instructions: ['Hard boil eggs and cool completely', 'Cut eggs in half and remove yolks', 'Mix yolks with mayo, mustard, and paprika', 'Fill egg whites with yolk mixture', 'Cut black olives for spider bodies and legs'] },
-    { id: 26, title: "Pumpkin Cheese Ball", category: 'snacks', time: 20, difficulty: 'Easy', image: '🎃', rating: 4.6, description: 'A cheese ball shaped and colored like a perfect pumpkin...', ingredients: ['Cream cheese', 'Cheddar cheese', 'Ranch dressing mix', 'Orange food coloring', 'Pretzel stick'], instructions: ['Mix cream cheese with shredded cheddar', 'Add ranch dressing mix and orange coloring', 'Form into pumpkin shape and chill 2 hours', 'Use knife to create pumpkin ridges', 'Insert pretzel stick as stem', 'Serve with crackers'] },
-    { id: 27, title: "Witch Hats Dip Bowls", category: 'snacks', time: 15, difficulty: 'Easy', image: '🎭', rating: 4.2, description: 'Tortilla bowls filled with colorful dips like witch hats...', ingredients: ['Tortilla bowls', 'Black bean dip', 'Orange cheese', 'Guacamole', 'Sour cream'], instructions: ['Warm tortilla bowls according to package', 'Fill with black bean dip as base', 'Add layer of orange cheese dip', 'Top with guacamole for hat color', 'Dollop sour cream and garnish with chives', 'Arrange with tortilla chips'] },
-    { id: 28, title: "Graveyard Hummus", category: 'snacks', time: 30, difficulty: 'Medium', image: '🪦', rating: 4.3, description: 'Layered dips arranged like a spooky graveyard scene...', ingredients: ['Hummus', 'Black bean dip', 'Pita chips', 'Carrots', 'Celery', 'Olives'], instructions: ['Spread hummus in rectangular dish', 'Create graveyard mounds with black bean dip', 'Break pita chips into tombstone shapes', 'Insert pita tombstones into hummus', 'Cut carrots and celery into bone shapes', 'Scatter olive stones around graveyard'] }
-  ];
-
-  const defaultCategories = [
-    { id: 'all', name: 'All Recipes', emoji: '🍴' },
-    { id: 'cookies', name: 'Cursed Cookies', emoji: '🍪' },
-    { id: 'drinks', name: 'Dark Potions', emoji: '🍷' },
-    { id: 'pies', name: 'Phantom Pies', emoji: '🥧' },
-    { id: 'mains', name: 'Wicked Mains', emoji: '🍽️' },
-    { id: 'snacks', name: 'Creepy Snacks', emoji: '🦇' }
-  ];
-
-  const defaultFacts = [
-    { id: 1, title: "Ancient Origins", icon: "🌙", fact: "Halloween originated from the ancient Celtic festival of Samhain, marking the end of harvest season and the beginning of winter - when the veil between worlds was thinnest." },
-    { id: 2, title: "Jack-o'-Lantern Legend", icon: "🎃", fact: "The tradition comes from Irish folklore about 'Stingy Jack,' doomed to wander with only a hollowed turnip with coal inside to light his way through eternity." },
-    { id: 3, title: "Trick-or-Treat Evolution", icon: "🍭", fact: "Evolved from medieval 'souling,' where people received food in exchange for prayers for the dead. Children would go door-to-door offering songs and prayers." },
-    { id: 4, title: "Black Cat Superstition", icon: "🐱", fact: "In medieval Europe, black cats were associated with witches and bad luck. However, in ancient Egypt, they were considered sacred and brought good fortune." },
-    { id: 5, title: "Halloween Colors", icon: "🍂", fact: "Orange and black became Halloween's signature colors because orange represents autumn harvest and black symbolizes death and darkness." },
-    { id: 6, title: "Candy Corn Creation", icon: "🌽", fact: "Candy corn was originally called 'Chicken Feed' in the 1880s. It was marketed to America's agricultural society with the slogan 'Something worth crowing for!'" }
-  ];
+  const [recipes] = useState(allRecipes);
+  const [categories] = useState(defaultCategories);
+  const [facts] = useState(defaultFacts);
+  const [movies] = useState(allMovies);
 
   // Glitch effect
   useEffect(() => {
@@ -123,7 +46,7 @@ const SpookyRecipesApp = () => {
     selectedCategory === 'all' || recipe.category === selectedCategory
   );
 
-  const toggleFavorite = async (id) => {
+  const toggleFavorite = (id) => {
     const newFavorites = new Set(favorites);
     if (newFavorites.has(id)) {
       newFavorites.delete(id);
@@ -131,25 +54,8 @@ const SpookyRecipesApp = () => {
       newFavorites.add(id);
     }
     setFavorites(newFavorites);
-
-    // Optionally sync with backend
-    try {
-      await axios.post('/api/favorites', { recipeId: id });
-    } catch (error) {
-      console.error('Error updating favorites:', error);
-    }
+    localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(Array.from(newFavorites)));
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-amber-950/20 to-black text-gray-100 flex items-center justify-center" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
-        <div className="text-center">
-          <Skull className="w-16 h-16 text-red-600 mx-auto mb-4 animate-pulse" />
-          <p className="text-amber-100">Summoning spooky recipes...</p>
-        </div>
-      </div>
-    );
-  }
 
   // Fact Detail View
   if (currentView === 'fact' && selectedFact) {
@@ -275,7 +181,7 @@ const SpookyRecipesApp = () => {
                 <div className="relative">
                   {selectedMovie.poster && (
                     <img
-                      src={`http://localhost:5000/${selectedMovie.poster}`}
+                      src={posterUrl(selectedMovie.poster)}
                       alt={selectedMovie.title}
                       className="w-full rounded border-2 border-red-900/50 shadow-lg"
                       onError={(e) => {e.target.style.display = 'none'}}
@@ -361,7 +267,7 @@ const SpookyRecipesApp = () => {
               >
                 {movie.poster && (
                   <img
-                    src={`http://localhost:5000/${movie.poster}`}
+                    src={posterUrl(movie.poster)}
                     alt={movie.title}
                     className="w-full h-80 object-cover rounded mb-3 border border-amber-800/30 group-hover:border-red-700/50 transition-all"
                     onError={(e) => {e.target.style.display = 'none'}}
