@@ -385,10 +385,27 @@ const SpookyRecipesApp = () => {
   if (currentView === 'landing') {
     return (
       <div className="min-h-screen bg-black text-gray-100 flex items-center justify-center relative overflow-hidden" style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
-        {/* 80s VHS Scan Lines Effect */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-900/5 to-transparent bg-[length:100%_4px] animate-pulse"></div>
+        {/* VHS scanlines, rolling top-to-bottom like an old tape */}
+        <div className="absolute inset-0 pointer-events-none z-20 vhs-scanlines"></div>
+
+        {/* VHS tracking glitch bar - flickers in at a random position during glitch bursts */}
+        {glitchEffect && (
+          <div
+            className="absolute left-0 right-0 h-3 bg-white/10 mix-blend-overlay pointer-events-none z-20"
+            style={{ top: `${Math.floor(Math.random() * 90)}%` }}
+          ></div>
+        )}
+
+        {/* REC indicator, corner of the "tape" */}
+        <div className="absolute top-5 left-5 md:top-8 md:left-8 flex items-center gap-2 font-mono text-red-500 text-xs md:text-sm tracking-widest z-20 pointer-events-none">
+          <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-600 vhs-rec-dot"></span>
+          <span>REC ● 10.31.1986</span>
         </div>
+        {glitchEffect && (
+          <div className="absolute bottom-5 left-5 md:bottom-8 md:left-8 font-mono text-white/70 text-xs md:text-sm tracking-widest z-20 pointer-events-none">
+            ≡≡ TRACKING
+          </div>
+        )}
 
         {/* Glitch Background */}
         <div className={`absolute inset-0 bg-gradient-to-b from-red-950/20 via-black to-amber-950/20 transition-all duration-150 ${glitchEffect ? 'scale-105 blur-sm' : ''}`}></div>
@@ -401,7 +418,9 @@ const SpookyRecipesApp = () => {
             </div>
             <h1 className={`font-mono text-5xl md:text-7xl lg:text-8xl font-bold mb-4 transition-all duration-150 ${glitchEffect ? 'blur-sm scale-105' : ''}`}
                 style={{
-                  textShadow: '0 0 20px rgba(220, 38, 38, 0.8), 0 0 40px rgba(220, 38, 38, 0.6), 4px 4px 0px rgba(0,0,0,0.8)',
+                  textShadow: glitchEffect
+                    ? '-3px 0 rgba(255,0,60,0.85), 3px 0 rgba(0,220,255,0.6), 0 0 20px rgba(220, 38, 38, 0.8), 4px 4px 0px rgba(0,0,0,0.8)'
+                    : '-1px 0 rgba(255,0,60,0.35), 1px 0 rgba(0,220,255,0.25), 0 0 20px rgba(220, 38, 38, 0.8), 0 0 40px rgba(220, 38, 38, 0.6), 4px 4px 0px rgba(0,0,0,0.8)',
                   color: '#dc2626',
                   letterSpacing: '0.1em'
                 }}>
@@ -477,7 +496,7 @@ const SpookyRecipesApp = () => {
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 MYSTERIES
               </h3>
-              <p className="font-mono text-red-300 text-sm">13 DARK SECRETS</p>
+              <p className="font-mono text-red-300 text-sm">20 DARK SECRETS</p>
             </button>
           </div>
 
