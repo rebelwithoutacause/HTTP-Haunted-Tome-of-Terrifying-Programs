@@ -442,12 +442,12 @@ const SpookyRecipesApp = () => {
             {/* Recipes Button */}
             <button
               onClick={() => setCurrentView('recipes')}
-              className="group relative bg-gradient-to-b from-red-900 to-red-950 border-4 border-red-600 p-8 hover:border-red-400 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(220,38,38,0.8)]"
+              className="group relative bg-gradient-to-b from-black to-red-950/60 border-2 border-red-900/70 p-8 hover:border-red-600 transition-all duration-300 hover:shadow-[0_0_25px_rgba(220,38,38,0.4)]"
               style={{
-                boxShadow: '0 0 20px rgba(220, 38, 38, 0.5), inset 0 2px 0 rgba(255,255,255,0.1)'
+                boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.06)'
               }}
             >
-              <div className="text-8xl mb-4 group-hover:scale-110 transition-transform">🍪</div>
+              <Skull className="w-16 h-16 mx-auto mb-4 text-red-700 group-hover:text-red-500 group-hover:scale-110 transition-all drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]" />
               <h3 className="font-mono text-2xl md:text-3xl text-amber-100 mb-2 tracking-wider font-bold"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 CURSED
@@ -456,18 +456,18 @@ const SpookyRecipesApp = () => {
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 RECIPES
               </h3>
-              <p className="font-mono text-red-300 text-sm">28 WICKED DELIGHTS</p>
+              <p className="font-mono text-red-400/80 text-sm">28 WICKED DELIGHTS</p>
             </button>
 
             {/* Movies Button */}
             <button
               onClick={() => setCurrentView('movies')}
-              className="group relative bg-gradient-to-b from-red-900 to-red-950 border-4 border-red-600 p-8 hover:border-red-400 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(220,38,38,0.8)]"
+              className="group relative bg-gradient-to-b from-black to-red-950/60 border-2 border-red-900/70 p-8 hover:border-red-600 transition-all duration-300 hover:shadow-[0_0_25px_rgba(220,38,38,0.4)]"
               style={{
-                boxShadow: '0 0 20px rgba(220, 38, 38, 0.5), inset 0 2px 0 rgba(255,255,255,0.1)'
+                boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.06)'
               }}
             >
-              <div className="text-8xl mb-4 group-hover:scale-110 transition-transform">📼</div>
+              <Film className="w-16 h-16 mx-auto mb-4 text-red-700 group-hover:text-red-500 group-hover:scale-110 transition-all drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]" />
               <h3 className="font-mono text-2xl md:text-3xl text-amber-100 mb-2 tracking-wider font-bold"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 HORROR
@@ -476,18 +476,18 @@ const SpookyRecipesApp = () => {
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 CINEMA
               </h3>
-              <p className="font-mono text-red-300 text-sm">50 CLASSIC FILMS</p>
+              <p className="font-mono text-red-400/80 text-sm">50 CLASSIC FILMS</p>
             </button>
 
             {/* Mysteries Button */}
             <button
               onClick={() => setCurrentView('mysteries')}
-              className="group relative bg-gradient-to-b from-red-900 to-red-950 border-4 border-red-600 p-8 hover:border-red-400 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(220,38,38,0.8)]"
+              className="group relative bg-gradient-to-b from-black to-red-950/60 border-2 border-red-900/70 p-8 hover:border-red-600 transition-all duration-300 hover:shadow-[0_0_25px_rgba(220,38,38,0.4)]"
               style={{
-                boxShadow: '0 0 20px rgba(220, 38, 38, 0.5), inset 0 2px 0 rgba(255,255,255,0.1)'
+                boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.06)'
               }}
             >
-              <div className="text-8xl mb-4 group-hover:scale-110 transition-transform">📖</div>
+              <BookOpen className="w-16 h-16 mx-auto mb-4 text-red-700 group-hover:text-red-500 group-hover:scale-110 transition-all drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]" />
               <h3 className="font-mono text-2xl md:text-3xl text-amber-100 mb-2 tracking-wider font-bold"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 ANCIENT
@@ -496,14 +496,14 @@ const SpookyRecipesApp = () => {
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
                 MYSTERIES
               </h3>
-              <p className="font-mono text-red-300 text-sm">20 DARK SECRETS</p>
+              <p className="font-mono text-red-400/80 text-sm">20 DARK SECRETS</p>
             </button>
           </div>
 
           {/* Warning Label - 80s Style */}
-          <div className="border-2 border-red-600 bg-black/50 p-4 max-w-2xl mx-auto">
+          <div className="border-2 border-red-900/70 bg-black/60 p-4 max-w-2xl mx-auto">
             <p className="font-mono text-red-500 text-xs md:text-sm tracking-wider">
-              ⚠ WARNING: CONTAINS GRAPHIC RECIPES, SUPERNATURAL CONTENT & TERRIFYING TALES ⚠
+              WARNING: CONTAINS GRAPHIC RECIPES, SUPERNATURAL CONTENT &amp; TERRIFYING TALES
             </p>
           </div>
 
