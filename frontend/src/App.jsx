@@ -149,7 +149,7 @@ const SpookyRecipesApp = () => {
 
           <div className="bg-black/90 border border-amber-800/30 p-8 rounded">
             <div className="text-center mb-6">
-              <h1 className="font-mono text-4xl text-amber-100 mb-4 tracking-wide">{selectedFact.title}</h1>
+              <h1 className="horror-font text-3xl md:text-4xl text-amber-100 mb-4 tracking-wide">{selectedFact.title}</h1>
               <p className="text-amber-300/90 text-lg italic leading-relaxed">
                 {selectedFact.fact}
               </p>
@@ -209,7 +209,7 @@ const SpookyRecipesApp = () => {
                 }}
                 className="bg-black/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-6 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded group"
               >
-                <h3 className="font-mono text-lg text-amber-100 mb-3 leading-tight tracking-wide uppercase">
+                <h3 className="horror-font text-base md:text-lg text-amber-100 mb-3 leading-tight tracking-wide uppercase">
                   {fact.title}
                 </h3>
                 <p className="text-amber-300/80 text-sm leading-relaxed line-clamp-4">
@@ -262,7 +262,7 @@ const SpookyRecipesApp = () => {
 
               {/* Movie Info */}
               <div className="md:col-span-2">
-                <h1 className="font-mono text-4xl text-amber-100 mb-4">{selectedMovie.title}</h1>
+                <h1 className="horror-font text-3xl md:text-4xl text-amber-100 mb-4">{selectedMovie.title}</h1>
 
                 <div className="flex items-center gap-6 mb-6 text-amber-300">
                   <div className="flex items-center gap-2">
@@ -344,7 +344,7 @@ const SpookyRecipesApp = () => {
                     onError={(e) => {e.target.style.display = 'none'}}
                   />
                 )}
-                <h3 className="font-mono text-sm text-amber-100 mb-2 leading-tight text-center">
+                <h3 className="horror-font text-sm md:text-base text-amber-100 mb-2 leading-tight text-center">
                   {movie.title}
                 </h3>
                 <div className="flex items-center justify-center gap-2 text-xs text-amber-300/80 mb-2">
@@ -387,7 +387,7 @@ const SpookyRecipesApp = () => {
           <div className="bg-black/90 border border-amber-800/30 p-8 rounded">
             <div className="flex items-start justify-between mb-6 gap-4">
               <div>
-                <h1 className="font-mono text-3xl text-amber-100 mb-2 tracking-wide">{selectedRecipe.title}</h1>
+                <h1 className="horror-font text-2xl md:text-3xl text-amber-100 mb-2 tracking-wide">{selectedRecipe.title}</h1>
                 <p className="text-amber-200/80 italic text-lg">{selectedRecipe.description}</p>
               </div>
               <button
@@ -688,7 +688,7 @@ const SpookyRecipesApp = () => {
             className={`bg-black/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-4 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded ${glitchEffect ? 'animate-pulse' : ''}`}
           >
             <div className="flex justify-between items-start mb-2 gap-2">
-              <h3 className="font-mono text-lg text-amber-100 leading-tight tracking-wide">{recipe.title}</h3>
+              <h3 className="horror-font text-base md:text-lg text-amber-100 leading-tight tracking-wide">{recipe.title}</h3>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
