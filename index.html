@@ -58,8 +58,38 @@
       .flicker-text {
         animation: eerie-flicker 6s infinite;
       }
+
+      /* VHS tape scanlines, slowly rolling like tracking on an old cassette */
+      .vhs-scanlines {
+        background-image: repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.05) 0px,
+          rgba(255,255,255,0.05) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+        background-size: 100% 3px;
+        animation: vhs-roll 6s linear infinite;
+        mix-blend-mode: overlay;
+      }
+      @keyframes vhs-roll {
+        0% { background-position: 0 0; }
+        100% { background-position: 0 300px; }
+      }
+
+      @keyframes vhs-rec-blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.15; }
+      }
+      .vhs-rec-dot {
+        animation: vhs-rec-blink 1s step-start infinite;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .vhs-scanlines, .vhs-rec-dot { animation: none; }
+      }
     </style>
-    <script type="module" crossorigin src="/HTTP-Haunted-Tome-of-Terrifying-Programs/assets/index-19ae835f.js"></script>
+    <script type="module" crossorigin src="/HTTP-Haunted-Tome-of-Terrifying-Programs/assets/index-118f8cf8.js"></script>
   </head>
   <body>
     <div id="root"></div>
