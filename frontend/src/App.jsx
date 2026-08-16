@@ -681,11 +681,6 @@ const SpookyRecipesApp = () => {
               {t.warningLabel}
             </p>
           </div>
-
-          {/* Footer Text */}
-          <p className="font-mono text-amber-600 text-xs mt-8 tracking-widest">
-            {t.heroTagline}
-          </p>
         </div>
       </div>
     );
