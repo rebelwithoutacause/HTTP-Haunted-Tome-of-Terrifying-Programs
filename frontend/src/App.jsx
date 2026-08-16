@@ -597,9 +597,6 @@ const SpookyRecipesApp = () => {
         <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
           {/* Title with 80s Horror Style */}
           <div className="mb-16">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <Skull className={`w-16 h-16 md:w-24 md:h-24 text-red-600 drop-shadow-[0_0_30px_rgba(220,38,38,0.8)] transition-all duration-150 ${glitchEffect ? 'animate-pulse scale-110' : ''}`} />
-            </div>
             <h1 className={`horror-font text-4xl md:text-6xl lg:text-7xl mb-4 transition-all duration-150 ${glitchEffect ? 'blur-sm scale-105' : ''}`}
                 style={{
                   textShadow: glitchEffect
@@ -608,14 +605,8 @@ const SpookyRecipesApp = () => {
                   color: '#dc2626',
                   letterSpacing: '0.05em'
                 }}>
-              {t.spooky}
+              {t.siteTitle}
             </h1>
-            <h2 className="horror-font text-2xl md:text-4xl text-amber-400 tracking-wide"
-                style={{
-                  textShadow: '0 0 15px rgba(251, 191, 36, 0.6), 2px 2px 0px rgba(0,0,0,0.8)'
-                }}>
-              {t.tome}
-            </h2>
             <p className="font-mono text-red-400 text-sm md:text-base mt-4 tracking-wider">
               {t.heroTag}
             </p>
@@ -718,7 +709,7 @@ const SpookyRecipesApp = () => {
             <div className="flex items-center gap-3">
               <Skull className="w-8 h-8 text-red-600" />
               <h1 className={`horror-font text-xl md:text-2xl text-amber-100 tracking-wide transition-all duration-150 ${glitchEffect ? 'blur-sm opacity-70' : ''}`}>
-                {t.spookyTomeTitle}
+                {t.siteTitle}
               </h1>
             </div>
             <div className="w-24"></div>
