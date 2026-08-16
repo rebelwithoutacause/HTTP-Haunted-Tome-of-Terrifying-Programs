@@ -52,7 +52,7 @@ export const uiStrings = {
     theFullStory: 'Цялата история',
     cursedIngredients: '🧪 Прокълнати съставки',
     darkRitualSteps: '📜 Стъпки на тъмния ритуал',
-    ritual: 'ритуал',
+    ritual: '',
     minutes: 'минути',
     min: 'мин',
     darkSecretsIntro: (n) => `${n} тъмни тайни от миналото на Halloween - кликни за цялата история`,
@@ -79,7 +79,7 @@ export const uiStrings = {
     horrorCinemaVaultTitle: 'ТРЕЗОРЪТ НА ХОРЪР КИНОТО',
     ancientMysteriesTitle: 'ДРЕВНИ МИСТЕРИИ НА HALLOWEEN',
     changeLanguage: 'Смени езика',
-    difficulty: { Easy: 'Лесно', Medium: 'Средно', Hard: 'Трудно' }
+    difficulty: { Easy: 'Лесна рецепта', Medium: 'Рецепта със средна трудност', Hard: 'Трудна рецепта' }
   },
   ru: {
     home: 'Главная',
