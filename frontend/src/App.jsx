@@ -9,6 +9,9 @@ import { categories as categoriesBg } from './data/categories.bg.js';
 import { categories as categoriesRu } from './data/categories.ru.js';
 import { categories as categoriesDe } from './data/categories.de.js';
 import { facts as factsEn } from './data/facts.js';
+import { facts as factsBg } from './data/facts.bg.js';
+import { facts as factsRu } from './data/facts.ru.js';
+import { facts as factsDe } from './data/facts.de.js';
 import { movies as moviesEn } from './data/movies.js';
 import { movies as moviesBg } from './data/movies.bg.js';
 import { movies as moviesRu } from './data/movies.ru.js';
@@ -16,8 +19,7 @@ import { movies as moviesDe } from './data/movies.de.js';
 import { uiStrings, FLAG_ICONS, getInitialLang, LANG_STORAGE_KEY } from './i18n.js';
 
 const RECIPES_BY_LANG = { en: recipesEn, bg: recipesBg, ru: recipesRu, de: recipesDe };
-// Mysteries translation is still in progress - all languages fall back to English for now
-const FACTS_BY_LANG = { en: factsEn };
+const FACTS_BY_LANG = { en: factsEn, bg: factsBg, ru: factsRu, de: factsDe };
 const MOVIES_BY_LANG = { en: moviesEn, bg: moviesBg, ru: moviesRu, de: moviesDe };
 const CATEGORIES_BY_LANG = { en: categoriesEn, bg: categoriesBg, ru: categoriesRu, de: categoriesDe };
 
