@@ -29,9 +29,9 @@ const posterUrl = (poster) => `${import.meta.env.BASE_URL}${poster}`;
 const SpookyRecipesApp = () => {
   // Main app state
   const [currentView, setCurrentView] = useState('landing');
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [selectedFact, setSelectedFact] = useState(null);
+  const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
+  const [selectedFactId, setSelectedFactId] = useState(null);
   const [favorites, setFavorites] = useState(() => {
     try {
       const stored = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]');
@@ -54,6 +54,14 @@ const SpookyRecipesApp = () => {
   const facts = useMemo(() => FACTS_BY_LANG[lang] || FACTS_BY_LANG.en, [lang]);
   const movies = useMemo(() => MOVIES_BY_LANG[lang] || MOVIES_BY_LANG.en, [lang]);
 
+  // Re-derive the selected item from the current-language array (by id) on
+  // every render, instead of storing the object itself - otherwise switching
+  // language while viewing a story/recipe/movie left the content frozen in
+  // whatever language was active when it was first opened.
+  const selectedFact = useMemo(() => facts.find(f => f.id === selectedFactId) || null, [facts, selectedFactId]);
+  const selectedRecipe = useMemo(() => recipes.find(r => r.id === selectedRecipeId) || null, [recipes, selectedRecipeId]);
+  const selectedMovie = useMemo(() => movies.find(m => m.id === selectedMovieId) || null, [movies, selectedMovieId]);
+
   const changeLang = (newLang) => {
     setLang(newLang);
     setLangMenuOpen(false);
@@ -71,7 +79,7 @@ const SpookyRecipesApp = () => {
   // top every time so a story/recipe/movie always opens from its beginning.
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [currentView, selectedFact, selectedRecipe, selectedMovie]);
+  }, [currentView, selectedFactId, selectedRecipeId, selectedMovieId]);
 
   const [bloodDrips] = useState(() =>
     Array.from({ length: 14 }, (_, i) => ({
@@ -205,7 +213,7 @@ const SpookyRecipesApp = () => {
         <div className="max-w-4xl mx-auto">
           <button
             onClick={() => {
-              setSelectedFact(null);
+              setSelectedFactId(null);
               setCurrentView('mysteries');
             }}
             className="flex items-center gap-2 text-red-400 hover:text-red-300 mb-6 font-mono transition-colors"
@@ -271,7 +279,7 @@ const SpookyRecipesApp = () => {
               <div
                 key={fact.id}
                 onClick={() => {
-                  setSelectedFact(fact);
+                  setSelectedFactId(fact.id);
                   setCurrentView('fact');
                 }}
                 className="bg-black/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-6 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded group"
@@ -302,7 +310,7 @@ const SpookyRecipesApp = () => {
         <div className="max-w-6xl mx-auto">
           <button
             onClick={() => {
-              setSelectedMovie(null);
+              setSelectedMovieId(null);
               setCurrentView('movies');
             }}
             className="flex items-center gap-2 text-red-400 hover:text-red-300 mb-6 font-mono transition-colors"
@@ -398,7 +406,7 @@ const SpookyRecipesApp = () => {
               <div
                 key={movie.id}
                 onClick={() => {
-                  setSelectedMovie(movie);
+                  setSelectedMovieId(movie.id);
                   setCurrentView('movie');
                 }}
                 className="bg-black/80 border border-amber-800/30 p-4 hover:border-red-700/50 transition-all duration-300 hover:shadow-lg cursor-pointer rounded group"
@@ -750,7 +758,7 @@ const SpookyRecipesApp = () => {
           <div
             key={recipe.id}
             onClick={() => {
-              setSelectedRecipe(recipe);
+              setSelectedRecipeId(recipe.id);
               setCurrentView('recipe');
             }}
             className={`bg-black/80 border border-amber-800/30 border-l-4 border-l-red-900/60 p-4 hover:border-red-700/50 hover:border-l-red-600 transition-all duration-300 hover:shadow-lg cursor-pointer rounded ${glitchEffect ? 'animate-pulse' : ''}`}
