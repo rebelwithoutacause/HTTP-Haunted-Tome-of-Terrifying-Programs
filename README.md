@@ -1,219 +1,107 @@
-# 🎃 HTTP-Haunted-Tome-of-Terrifying-Programs
+# HTTP-Haunted-Tome-of-Terrifying-Programs
 
-## Spooky Grimoire - Halloween Recipes Application
+## The Spirit of Halloween
 
-A full-stack Halloween-themed web application featuring spooky recipes, classic horror movies, and mysterious Halloween facts. Built with React, Express.js, and a dark, atmospheric design.
+A Halloween-themed web application featuring cursed recipes, classic horror movies, and ancient mysteries. Fully static, built with React and Vite, with a dark VHS-inspired atmosphere (scanlines, dripping blood, lightning) and a full language switcher.
 
-## 🦇 Features
+Live site: https://rebelwithoutacause.github.io/HTTP-Haunted-Tome-of-Terrifying-Programs/
 
-- **28 Spooky Recipes** across 5 categories (Cookies, Drinks, Pies, Mains, Snacks)
-- **50 Classic Horror Movies** with posters, ratings, and detailed descriptions
-- **13 Ancient Halloween Mysteries** with fascinating historical facts
-- **Interactive UI** with Halloween-themed design and glitch effects
-- **Recipe Management** with favorites, filtering, and search
-- **Responsive Design** optimized for all devices
-- **RESTful API** with proper error handling and rate limiting
+## Features
 
-## 🕷️ Tech Stack
+- **28 Cursed Recipes** across 5 categories (Cookies, Drinks, Pies, Mains, Snacks)
+- **50 Classic Horror Movies** with posters, ratings, and descriptions, linked to IMDb
+- **20 Ancient Halloween Mysteries** with in-depth historical and folkloric details
+- **Full language switcher** - English, Bulgarian, Russian, and German, with all recipes, movies, and mysteries fully translated
+- **Favorites system** for recipes, saved in the browser
+- **Category filtering** for recipes
+- **Atmosphere effects** - VHS scanlines, a REC indicator, random lightning/thunder, and animated blood drips
+- **Fully static** - no backend or database; all data is bundled at build time
 
-### Frontend
+## Tech Stack
+
 - **React 18** with functional components and hooks
-- **Vite** for fast development and building
-- **Tailwind CSS** for styling
+- **Vite** for development and production builds
+- **Tailwind CSS** compiled at build time via PostCSS
 - **Lucide React** for icons
-- **Axios** for API communication
+- **GitHub Actions** for automated build and deployment to GitHub Pages
 
-### Backend
-- **Node.js** with Express.js
-- **ES6 Modules**
-- **CORS** for cross-origin requests
-- **Helmet** for security headers
-- **Rate Limiting** for API protection
-- **Morgan** for request logging
-
-## 🏗️ Project Structure
+## Project Structure
 
 ```
-spooky/
-├── frontend/                 # React frontend application
+HTTP-Haunted-Tome-of-Terrifying-Programs/
+├── .github/workflows/
+│   └── deploy.yml            # Builds and deploys to gh-pages on every push to main
+├── frontend/
 │   ├── src/
-│   │   ├── App.jsx          # Main React component
-│   │   └── main.jsx         # React entry point
-│   ├── index.html           # HTML template
-│   ├── vite.config.js       # Vite configuration
-│   └── package.json         # Frontend dependencies
-├── backend/                  # Express.js backend API
-│   ├── routes/              # API route handlers
-│   │   ├── recipes.js       # Recipe endpoints
-│   │   ├── categories.js    # Category endpoints
-│   │   ├── facts.js         # Facts endpoints
-│   │   ├── movies.js        # Movie endpoints
-│   │   └── favorites.js     # Favorites endpoints
-│   ├── data/                # Static data files
-│   │   ├── recipes.js       # Recipe data
-│   │   ├── categories.js    # Category data
-│   │   ├── facts.js         # Halloween mysteries
-│   │   └── movies.js        # Horror movie data
-│   ├── server.js            # Express server setup
-│   └── package.json         # Backend dependencies
-├── Posters/                  # Movie poster images
-├── package.json             # Root package.json with scripts
-└── README.md               # This file
+│   │   ├── App.jsx           # Main application component and all views
+│   │   ├── main.jsx          # React entry point
+│   │   ├── i18n.js           # UI string translations (EN/BG/RU/DE) and language switcher logic
+│   │   ├── tailwind.css      # Tailwind entry point
+│   │   └── data/
+│   │       ├── recipes.js, recipes.bg.js, recipes.ru.js, recipes.de.js
+│   │       ├── movies.js, movies.bg.js, movies.ru.js, movies.de.js
+│   │       ├── facts.js, facts.bg.js, facts.ru.js, facts.de.js
+│   │       └── categories.js, categories.bg.js, categories.ru.js, categories.de.js
+│   ├── public/posters/       # Movie poster images
+│   ├── index.html            # HTML template, fonts, and atmosphere CSS
+│   ├── vite.config.js        # Vite configuration (base path for GitHub Pages)
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   └── package.json
+└── README.md
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js (v18 or higher)
-- npm or yarn
 
-### Installation
+### Development
 
-1. **Install all dependencies:**
-   ```bash
-   npm run install:all
-   ```
-
-2. **Start development servers:**
-   ```bash
-   npm run dev
-   ```
-
-   This starts both frontend (http://localhost:3001) and backend (http://localhost:5000) servers concurrently.
-
-### Individual Commands
-
-- **Frontend only:** `npm run dev:frontend`
-- **Backend only:** `npm run dev:backend`
-- **Build frontend:** `npm run build`
-- **Production backend:** `npm start`
-
-## 🔮 API Endpoints
-
-### Recipes
-- `GET /api/recipes` - Get all recipes (supports query filters)
-- `GET /api/recipes/:id` - Get recipe by ID
-- `GET /api/recipes/category/:category` - Get recipes by category
-- `GET /api/recipes/random/:count` - Get random recipes
-
-### Categories
-- `GET /api/categories` - Get all categories
-- `GET /api/categories/:id` - Get category by ID
-
-### Facts (Halloween Mysteries)
-- `GET /api/facts` - Get all Halloween facts
-- `GET /api/facts/:id` - Get fact by ID
-- `GET /api/facts/random/:count` - Get random facts
-
-### Favorites
-- `GET /api/favorites` - Get user favorites
-- `POST /api/favorites` - Add/remove recipe from favorites
-- `DELETE /api/favorites/:id` - Remove recipe from favorites
-
-### Movies
-- `GET /api/movies` - Get all horror movies (supports query filters)
-- `GET /api/movies/:id` - Get movie by ID
-- `GET /api/movies/random/:count` - Get random movies
-- `GET /api/movies/top/:count` - Get top-rated movies
-
-### Health Check
-- `GET /api/health` - API health status
-
-## 🎭 Recipe Categories
-
-1. **🍪 Cursed Cookies** - Witch fingers, spider cookies, ghost meringues
-2. **🍷 Dark Potions** - Vampire punch, witch's brew, zombie smoothies
-3. **🥧 Phantom Pies** - Eyeball pumpkin pie, graveyard mud pie
-4. **🍽️ Wicked Mains** - Mummy meatloaf, spider pasta, stuffed peppers
-5. **🦇 Creepy Snacks** - Mummy hot dogs, spider eggs, cheese pumpkins
-
-## 🌙 Features
-
-### Frontend Features
-- **Glitch Effects** - Random visual glitches for spooky atmosphere
-- **Favorites System** - Heart-click to save favorite recipes
-- **Category Filtering** - Filter recipes by type
-- **Recipe Details** - Full ingredient lists and instructions
-- **Horror Movie Collection** - Browse 50 classic horror films
-- **Mystery Section** - Explore Halloween history and legends
-- **Responsive Design** - Works on desktop and mobile
-- **Loading States** - Smooth transitions and feedback
-
-### Backend Features
-- **Security Headers** - Helmet.js for protection
-- **Rate Limiting** - Prevents API abuse (1000 requests per 15 minutes)
-- **Error Handling** - Consistent error responses
-- **CORS Support** - Configured for frontend communication
-- **Request Logging** - Morgan for request tracking
-- **Static File Serving** - Movie posters served efficiently
-- **Data Validation** - Input sanitization and validation
-
-## 🧙‍♀️ Development
-
-### Adding New Recipes
-1. Add recipe data to `backend/data/recipes.js`
-2. Ensure proper category assignment
-3. Include all required fields (id, title, category, time, difficulty, etc.)
-
-### Adding New Movies
-1. Add movie data to `backend/data/movies.js`
-2. Place poster image in `Posters/` directory
-3. Include title, year, rating, poster path, IMDb link, and description
-
-### Adding New API Endpoints
-1. Create route file in `backend/routes/`
-2. Import and use in `backend/server.js`
-3. Follow existing error handling patterns
-
-### Styling Changes
-- Tailwind classes are used throughout
-- Halloween color scheme: amber, red, gray tones
-- Times New Roman typography for Gothic aesthetic
-- Consistent spacing and responsive design
-
-## 🕸️ Production Deployment
-
-### Frontend Build
 ```bash
 cd frontend
+npm install
+npm run dev
+```
+
+The dev server runs at http://localhost:3001.
+
+### Production Build
+
+```bash
+cd frontend
+npm install
 npm run build
 ```
 
-### Environment Variables
-Create `.env` files for production:
+Output is written to `frontend/dist`.
 
-**Backend `.env`:**
-```
-NODE_ENV=production
-PORT=5000
-CORS_ORIGIN=https://yourdomain.com
-```
+## Deployment
 
-**Frontend `.env`:**
-```
-VITE_API_URL=https://api.yourdomain.com
-```
+Deployment is fully automated. Every push to `main` triggers `.github/workflows/deploy.yml`, which builds the frontend and publishes `frontend/dist` to the `gh-pages` branch. GitHub Pages serves the site from that branch. No manual build or deploy steps are needed.
 
-## 🎃 Contributing
+## Adding Content
 
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
+### Adding a Recipe
+Add an entry to `frontend/src/data/recipes.js` (and the matching translated entry, same `id`, in `recipes.bg.js`, `recipes.ru.js`, `recipes.de.js`), following the existing object shape (`id`, `title`, `category`, `time`, `difficulty`, `image`, `rating`, `description`, `ingredients`, `instructions`). `category` and `difficulty` values must stay in English across all languages since they're used as internal keys.
 
-## 📜 License
+### Adding a Movie
+Add an entry to `frontend/src/data/movies.js` (and the translated `description` field in the other three language files, same `id`). Place the poster image in `frontend/public/posters/` and reference it by filename in the `poster` field. Movie titles are kept in the original language across all translations.
+
+### Adding a Mystery
+Add an entry to `frontend/src/data/facts.js` (and the translated `title`, `fact`, and `details` fields in the other three language files, same `id`).
+
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🦴 Credits
+## Credits
 
-- Halloween emoji icons
-- Spooky recipe inspirations from various Halloween cooking sources
+- Recipe inspirations from various Halloween cooking sources
 - Classic horror movie collection and descriptions
-- Celtic Halloween history and traditions
-- Movie posters from respective film studios
+- Celtic and international Halloween history and folklore
+- Movie posters from their respective film studios
 
 ---
 
-*May your kitchen be filled with delicious darkness and your code be bug-free! 🕷️*
+*May your kitchen be filled with delicious darkness and your code be bug-free.*
