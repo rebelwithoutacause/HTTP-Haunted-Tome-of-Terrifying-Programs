@@ -66,6 +66,13 @@ const SpookyRecipesApp = () => {
     document.documentElement.setAttribute('data-lang', lang);
   }, [lang]);
 
+  // Since view switches don't trigger a real page navigation, the browser
+  // keeps whatever scroll position the previous view was at. Reset to the
+  // top every time so a story/recipe/movie always opens from its beginning.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentView, selectedFact, selectedRecipe, selectedMovie]);
+
   const [bloodDrips] = useState(() =>
     Array.from({ length: 14 }, (_, i) => ({
       id: i,
