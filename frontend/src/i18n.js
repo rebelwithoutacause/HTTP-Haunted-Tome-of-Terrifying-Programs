@@ -23,7 +23,7 @@ export const uiStrings = {
     footerTagline: 'Where culinary magic meets Halloween mysteries...',
     heroTagline: 'WHERE CULINARY MAGIC MEETS HALLOWEEN MYSTERIES',
     heroTag: '[HORROR COLLECTION]',
-    siteTitle: 'SPIRIT OF HALLOWEEN',
+    siteTitle: 'THE SPIRIT OF HALLOWEEN',
     cursed: 'CURSED',
     recipesWord: 'RECIPES',
     horror: 'HORROR',
