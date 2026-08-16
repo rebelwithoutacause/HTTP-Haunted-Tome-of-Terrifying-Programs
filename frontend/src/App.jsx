@@ -614,7 +614,7 @@ const SpookyRecipesApp = () => {
                 style={{
                   textShadow: '0 0 15px rgba(251, 191, 36, 0.6), 2px 2px 0px rgba(0,0,0,0.8)'
                 }}>
-              {t.grimoire}
+              {t.tome}
             </h2>
             <p className="font-mono text-red-400 text-sm md:text-base mt-4 tracking-wider">
               {t.heroTag}
@@ -718,7 +718,7 @@ const SpookyRecipesApp = () => {
             <div className="flex items-center gap-3">
               <Skull className="w-8 h-8 text-red-600" />
               <h1 className={`horror-font text-xl md:text-2xl text-amber-100 tracking-wide transition-all duration-150 ${glitchEffect ? 'blur-sm opacity-70' : ''}`}>
-                {t.spookyGrimoireTitle}
+                {t.spookyTomeTitle}
               </h1>
             </div>
             <div className="w-24"></div>
