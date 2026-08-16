@@ -1,9 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Heart, Clock, Skull, ArrowLeft, Filter, BookOpen, Film, Star, ExternalLink } from 'lucide-react';
-import { recipes as allRecipes } from './data/recipes.js';
-import { categories as defaultCategories } from './data/categories.js';
-import { facts as defaultFacts } from './data/facts.js';
-import { movies as allMovies } from './data/movies.js';
+import { recipes as recipesEn } from './data/recipes.js';
+import { recipes as recipesBg } from './data/recipes.bg.js';
+import { recipes as recipesRu } from './data/recipes.ru.js';
+import { recipes as recipesDe } from './data/recipes.de.js';
+import { categories as categoriesEn } from './data/categories.js';
+import { categories as categoriesBg } from './data/categories.bg.js';
+import { categories as categoriesRu } from './data/categories.ru.js';
+import { categories as categoriesDe } from './data/categories.de.js';
+import { facts as factsEn } from './data/facts.js';
+import { movies as moviesEn } from './data/movies.js';
+import { movies as moviesBg } from './data/movies.bg.js';
+import { movies as moviesRu } from './data/movies.ru.js';
+import { movies as moviesDe } from './data/movies.de.js';
+import { uiStrings, FLAG_ICONS, getInitialLang, LANG_STORAGE_KEY } from './i18n.js';
+
+const RECIPES_BY_LANG = { en: recipesEn, bg: recipesBg, ru: recipesRu, de: recipesDe };
+// Mysteries translation is still in progress - all languages fall back to English for now
+const FACTS_BY_LANG = { en: factsEn };
+const MOVIES_BY_LANG = { en: moviesEn, bg: moviesBg, ru: moviesRu, de: moviesDe };
+const CATEGORIES_BY_LANG = { en: categoriesEn, bg: categoriesBg, ru: categoriesRu, de: categoriesDe };
 
 const FAVORITES_STORAGE_KEY = 'spooky_favorites';
 const posterUrl = (poster) => `${import.meta.env.BASE_URL}${poster}`;
@@ -27,10 +43,20 @@ const SpookyRecipesApp = () => {
   const [glitchEffect, setGlitchEffect] = useState(false);
   const [lightning, setLightning] = useState(false);
   const [thunder, setThunder] = useState(false);
-  const [recipes] = useState(allRecipes);
-  const [categories] = useState(defaultCategories);
-  const [facts] = useState(defaultFacts);
-  const [movies] = useState(allMovies);
+  const [lang, setLang] = useState(getInitialLang);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+
+  const t = uiStrings[lang] || uiStrings.en;
+  const recipes = useMemo(() => RECIPES_BY_LANG[lang] || RECIPES_BY_LANG.en, [lang]);
+  const categories = useMemo(() => CATEGORIES_BY_LANG[lang] || CATEGORIES_BY_LANG.en, [lang]);
+  const facts = useMemo(() => FACTS_BY_LANG[lang] || FACTS_BY_LANG.en, [lang]);
+  const movies = useMemo(() => MOVIES_BY_LANG[lang] || MOVIES_BY_LANG.en, [lang]);
+
+  const changeLang = (newLang) => {
+    setLang(newLang);
+    setLangMenuOpen(false);
+    try { localStorage.setItem(LANG_STORAGE_KEY, newLang); } catch {}
+  };
 
   const [bloodDrips] = useState(() =>
     Array.from({ length: 14 }, (_, i) => ({
@@ -87,9 +113,35 @@ const SpookyRecipesApp = () => {
     selectedCategory === 'all' || recipe.category === selectedCategory
   );
 
+  // Language switcher, rendered on every page in the top-right corner
+  const langSwitcherFX = (
+    <div className="lang-switch">
+      <button
+        type="button"
+        className="lang-btn"
+        onClick={() => setLangMenuOpen(o => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={langMenuOpen}
+        aria-label={t.changeLanguage}
+      >
+        <span className="flag-icon" dangerouslySetInnerHTML={{ __html: FLAG_ICONS[lang] }}></span>
+        <span>{lang.toUpperCase()}</span>
+      </button>
+      <ul className={`lang-menu ${langMenuOpen ? 'active' : ''}`} role="listbox">
+        {['en', 'bg', 'ru', 'de'].map(code => (
+          <li key={code} role="option" className={code === lang ? 'active' : ''} onClick={() => changeLang(code)}>
+            <span className="flag-icon" dangerouslySetInnerHTML={{ __html: FLAG_ICONS[code] }}></span>
+            {code.toUpperCase()}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
   // Shared storm atmosphere: lightning flash + dripping blood, reused on every page
   const atmosphereFX = (
     <>
+      {langSwitcherFX}
       <div className={`lightning-flash ${lightning ? 'is-active' : ''}`}></div>
       <div className="blood-drips">
         {bloodDrips.map(d => (
@@ -144,7 +196,7 @@ const SpookyRecipesApp = () => {
             className="flex items-center gap-2 text-red-400 hover:text-red-300 mb-6 font-mono transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
-            Back to Mysteries
+            {t.backToMysteries}
           </button>
 
           <div className="bg-black/90 border border-amber-800/30 p-8 rounded">
@@ -158,7 +210,7 @@ const SpookyRecipesApp = () => {
             <div className="mt-8 pt-6 border-t border-amber-800/30">
               <h2 className="font-mono text-2xl text-red-400 mb-6 flex items-center gap-3">
                 <BookOpen className="w-6 h-6" />
-                The Full Story
+                {t.theFullStory}
               </h2>
               <p className="text-amber-200/90 text-base leading-relaxed whitespace-pre-line">
                 {selectedFact.details}
@@ -182,12 +234,12 @@ const SpookyRecipesApp = () => {
               className="flex items-center gap-2 text-red-400 hover:text-red-300 font-mono transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              Home
+              {t.home}
             </button>
             <div className="flex items-center gap-3">
               <BookOpen className="w-8 h-8 text-red-600" />
               <h1 className="horror-font text-xl md:text-2xl text-amber-100 tracking-wide flicker-text">
-                ANCIENT HALLOWEEN MYSTERIES
+                {t.ancientMysteriesTitle}
               </h1>
             </div>
             <div className="w-32"></div>
@@ -196,7 +248,7 @@ const SpookyRecipesApp = () => {
 
         <div className="px-4 py-6">
           <p className="text-amber-400/70 font-mono text-sm mb-6 text-center">
-            {facts.length} Dark Secrets from Halloween's Past - Click any mystery for the full story
+            {t.darkSecretsIntro(facts.length)}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -217,7 +269,7 @@ const SpookyRecipesApp = () => {
                 </p>
                 <div className="mt-4 text-xs text-red-400 font-mono flex items-center gap-1">
                   <BookOpen className="w-3 h-3" />
-                  Read full story →
+                  {t.readFullStory}
                 </div>
               </div>
             ))}
@@ -241,7 +293,7 @@ const SpookyRecipesApp = () => {
             className="flex items-center gap-2 text-red-400 hover:text-red-300 mb-6 font-mono transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
-            Back to Horror Collection
+            {t.backToHorrorCollection}
           </button>
 
           <div className="bg-black/90 border border-amber-800/30 p-8 rounded">
@@ -277,13 +329,13 @@ const SpookyRecipesApp = () => {
                     className="flex items-center gap-2 px-4 py-2 bg-amber-600/20 border border-amber-600/50 hover:bg-amber-600/30 transition-all rounded"
                   >
                     <ExternalLink className="w-4 h-4" />
-                    View on IMDb
+                    {t.viewOnImdb}
                   </a>
                 </div>
 
                 <div className="prose prose-invert max-w-none">
                   <h2 className="font-mono text-xl text-red-400 mb-4 border-b border-red-900/50 pb-2">
-                    📖 Plot Synopsis
+                    {t.plotSynopsis}
                   </h2>
                   <p className="text-amber-200/90 leading-relaxed text-base">
                     {selectedMovie.description}
@@ -309,12 +361,12 @@ const SpookyRecipesApp = () => {
               className="flex items-center gap-2 text-red-400 hover:text-red-300 font-mono transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              Home
+              {t.home}
             </button>
             <div className="flex items-center gap-3">
               <Film className="w-8 h-8 text-red-600" />
               <h1 className="horror-font text-xl md:text-2xl text-amber-100 tracking-wide flicker-text">
-                HORROR CINEMA VAULT
+                {t.horrorCinemaVaultTitle}
               </h1>
             </div>
             <div className="w-32"></div>
@@ -323,7 +375,7 @@ const SpookyRecipesApp = () => {
 
         <div className="px-4 py-6">
           <p className="text-amber-400/70 font-mono text-sm mb-6 text-center">
-            {movies.length} Classic Horror Films - Click any movie for full details
+            {t.classicHorrorFilmsIntro(movies.length)}
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
@@ -381,7 +433,7 @@ const SpookyRecipesApp = () => {
             className="flex items-center gap-2 text-red-400 hover:text-red-300 mb-6 font-mono transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
-            Back to Recipes
+            {t.backToRecipes}
           </button>
 
           <div className="bg-black/90 border border-amber-800/30 p-8 rounded">
@@ -401,7 +453,7 @@ const SpookyRecipesApp = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
               <div className="flex items-center gap-2 text-amber-300">
                 <Clock className="w-5 h-5" />
-                <span className="font-mono">{selectedRecipe.time} minutes</span>
+                <span className="font-mono">{selectedRecipe.time} {t.minutes}</span>
               </div>
               <div className="flex items-center gap-2 text-amber-300">
                 <span className="text-yellow-500 text-lg">★</span>
@@ -412,14 +464,14 @@ const SpookyRecipesApp = () => {
                 selectedRecipe.difficulty === 'Medium' ? 'text-yellow-400' :
                 'text-red-400'
               }`}>
-                <span>{selectedRecipe.difficulty} ritual</span>
+                <span>{t.difficulty[selectedRecipe.difficulty]} {t.ritual}</span>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <h2 className="font-mono text-xl text-red-400 mb-4 border-b border-red-900/50 pb-2">
-                  🧪 Cursed Ingredients
+                  {t.cursedIngredients}
                 </h2>
                 <ul className="space-y-2">
                   {selectedRecipe.ingredients.map((ingredient, index) => (
@@ -433,7 +485,7 @@ const SpookyRecipesApp = () => {
 
               <div>
                 <h2 className="font-mono text-xl text-red-400 mb-4 border-b border-red-900/50 pb-2">
-                  📜 Dark Ritual Steps
+                  {t.darkRitualSteps}
                 </h2>
                 <ol className="space-y-3">
                   {selectedRecipe.instructions.map((step, index) => (
@@ -450,7 +502,7 @@ const SpookyRecipesApp = () => {
 
             <div className="mt-8 pt-6 border-t border-red-900/30">
               <p className="text-amber-400/70 font-mono text-sm text-center italic">
-                May this recipe bring darkness to your kitchen and satisfaction to your soul...
+                {t.recipeFooterBlessing}
               </p>
             </div>
           </div>
@@ -463,6 +515,7 @@ const SpookyRecipesApp = () => {
   if (currentView === 'landing') {
     return (
       <div className={`min-h-screen bg-black text-gray-100 flex items-center justify-center relative overflow-hidden ${thunder ? 'thunder-shake' : ''}`} style={{fontFamily: 'Times New Roman, serif', fontSize: '20pt'}}>
+        {langSwitcherFX}
         {/* Lightning flash */}
         <div className={`lightning-flash ${lightning ? 'is-active' : ''}`}></div>
 
@@ -532,16 +585,16 @@ const SpookyRecipesApp = () => {
                   color: '#dc2626',
                   letterSpacing: '0.05em'
                 }}>
-              SPOOKY
+              {t.spooky}
             </h1>
             <h2 className="horror-font text-2xl md:text-4xl text-amber-400 tracking-wide"
                 style={{
                   textShadow: '0 0 15px rgba(251, 191, 36, 0.6), 2px 2px 0px rgba(0,0,0,0.8)'
                 }}>
-              GRIMOIRE
+              {t.grimoire}
             </h2>
             <p className="font-mono text-red-400 text-sm md:text-base mt-4 tracking-wider">
-              [HORROR COLLECTION • EST. 1980]
+              {t.heroTag}
             </p>
           </div>
 
@@ -558,13 +611,13 @@ const SpookyRecipesApp = () => {
               <Skull className="w-16 h-16 mx-auto mb-4 text-red-700 group-hover:text-red-500 group-hover:scale-110 transition-all drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]" />
               <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-2 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
-                CURSED
+                {t.cursed}
               </h3>
               <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-3 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
-                RECIPES
+                {t.recipesWord}
               </h3>
-              <p className="font-mono text-red-400/80 text-sm">28 WICKED DELIGHTS</p>
+              <p className="font-mono text-red-400/80 text-sm">28 {t.wickedDelights}</p>
             </button>
 
             {/* Movies Button */}
@@ -578,13 +631,13 @@ const SpookyRecipesApp = () => {
               <Film className="w-16 h-16 mx-auto mb-4 text-red-700 group-hover:text-red-500 group-hover:scale-110 transition-all drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]" />
               <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-2 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
-                HORROR
+                {t.horror}
               </h3>
               <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-3 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
-                CINEMA
+                {t.cinema}
               </h3>
-              <p className="font-mono text-red-400/80 text-sm">50 CLASSIC FILMS</p>
+              <p className="font-mono text-red-400/80 text-sm">50 {t.classicFilms}</p>
             </button>
 
             {/* Mysteries Button */}
@@ -598,26 +651,26 @@ const SpookyRecipesApp = () => {
               <BookOpen className="w-16 h-16 mx-auto mb-4 text-red-700 group-hover:text-red-500 group-hover:scale-110 transition-all drop-shadow-[0_0_12px_rgba(220,38,38,0.5)]" />
               <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-2 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
-                ANCIENT
+                {t.ancient}
               </h3>
               <h3 className="horror-font text-lg md:text-2xl text-amber-100 mb-3 tracking-wide"
                   style={{textShadow: '2px 2px 0px rgba(0,0,0,0.8)'}}>
-                MYSTERIES
+                {t.mysteries}
               </h3>
-              <p className="font-mono text-red-400/80 text-sm">20 DARK SECRETS</p>
+              <p className="font-mono text-red-400/80 text-sm">20 {t.darkSecrets}</p>
             </button>
           </div>
 
           {/* Warning Label - 80s Style */}
           <div className="border-2 border-red-900/70 bg-black/60 p-4 max-w-2xl mx-auto">
             <p className="font-mono text-red-500 text-xs md:text-sm tracking-wider">
-              WARNING: CONTAINS GRAPHIC RECIPES, SUPERNATURAL CONTENT &amp; TERRIFYING TALES
+              {t.warningLabel}
             </p>
           </div>
 
           {/* Footer Text */}
           <p className="font-mono text-amber-600 text-xs mt-8 tracking-widest">
-            WHERE CULINARY MAGIC MEETS HALLOWEEN MYSTERIES
+            {t.heroTagline}
           </p>
         </div>
       </div>
@@ -637,12 +690,12 @@ const SpookyRecipesApp = () => {
               className="flex items-center gap-2 text-red-400 hover:text-red-300 font-mono transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              Home
+              {t.home}
             </button>
             <div className="flex items-center gap-3">
               <Skull className="w-8 h-8 text-red-600" />
               <h1 className={`horror-font text-xl md:text-2xl text-amber-100 tracking-wide transition-all duration-150 ${glitchEffect ? 'blur-sm opacity-70' : ''}`}>
-                SPOOKY GRIMOIRE
+                {t.spookyGrimoireTitle}
               </h1>
             </div>
             <div className="w-24"></div>
@@ -672,7 +725,7 @@ const SpookyRecipesApp = () => {
       {/* Results Counter */}
       <div className="px-4 mb-4">
         <p className="text-amber-400/70 font-mono text-sm">
-          {filteredRecipes.length} cursed recipes found (Total: {recipes.length} in grimoire)
+          {t.cursedRecipesFound(filteredRecipes.length, recipes.length)}
         </p>
       </div>
 
@@ -704,7 +757,7 @@ const SpookyRecipesApp = () => {
             <div className="flex items-center justify-between text-base text-amber-300/80">
               <div className="flex items-center gap-1">
                 <Clock className="w-5 h-5" />
-                <span>{recipe.time} min</span>
+                <span>{recipe.time} {t.min}</span>
               </div>
               <div className="flex items-center gap-1">
                 <span className="text-yellow-500">★</span>
@@ -715,7 +768,7 @@ const SpookyRecipesApp = () => {
                 recipe.difficulty === 'Medium' ? 'border-yellow-600/50 text-yellow-400' :
                 'border-red-600/50 text-red-400'
               }`}>
-                {recipe.difficulty}
+                {t.difficulty[recipe.difficulty]}
               </div>
             </div>
           </div>
@@ -725,8 +778,8 @@ const SpookyRecipesApp = () => {
       {/* Footer */}
       <footer className="mt-16 pt-8 border-t border-amber-800/30 px-4 pb-8">
         <div className="text-center text-amber-500/70 font-mono text-sm">
-          <p>© 2025 Spooky Grimoire - Ancient Recipes from the Shadow Realm</p>
-          <p className="mt-2 text-xs">Where culinary magic meets Halloween mysteries...</p>
+          <p>{t.footerCopyright}</p>
+          <p className="mt-2 text-xs">{t.footerTagline}</p>
         </div>
       </footer>
     </div>
