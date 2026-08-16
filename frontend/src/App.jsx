@@ -60,6 +60,12 @@ const SpookyRecipesApp = () => {
     try { localStorage.setItem(LANG_STORAGE_KEY, newLang); } catch {}
   };
 
+  // Cyrillic languages need a different display font (Nosifer has no Cyrillic glyphs)
+  useEffect(() => {
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('data-lang', lang);
+  }, [lang]);
+
   const [bloodDrips] = useState(() =>
     Array.from({ length: 14 }, (_, i) => ({
       id: i,
